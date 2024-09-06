@@ -5,6 +5,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public static bool inventoryActivated = false;
+    public List<Item> items; // 플레이어가 소유한 아이템들을 저장하는 리스트
 
     [SerializeField] private GameObject inventoryBase;
     [SerializeField] private GameObject slotParent; // 슬롯이 배치된 부모 Transform (슬롯들의 부모 오브젝트)
@@ -67,4 +68,41 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
+    ///// <summary>
+    ///// 인벤토리의 슬롯을 새로 고침하는 메서드
+    ///// </summary>
+    //public void FreshSlot()
+    //{
+    //    int i = 0;
+    //    // 아이템과 슬롯이 있는 만큼 슬롯에 아이템을 할당
+    //    for (; i < items.Count && i < slots.Length; i++) 
+    //    {
+    //        slots[i].item = items[i];
+    //    }
+
+    //    // 남은 슬롯이 있으면 빈 슬롯으로 설정
+    //    for (; i < slots.Length; i++)
+    //    {
+    //        slots[i].item = null;
+    //    }
+    //}
+    ///// <summary>
+    ///// 인벤토리에 아이템을 추가하는 메서드
+    ///// </summary>
+    ///// <param name="_item">추가할 아이템</param>
+    ///// <param name="_count">추가할 아이템의 개수</param>
+    //public void AddItem(Item _item, int _count = 1)
+    //{
+    //    // 아이템을 추가할 수 있는 빈 슬롯이 있을 때만 추가
+    //    if (items.Count < slots.Length)
+    //    {
+    //        items.Add(_item);
+    //        FreshSlot();
+    //    }
+    //    else
+    //    {
+    //        print("슬롯이 가득 차 있습니다.");
+    //    }
+    //}
 }
