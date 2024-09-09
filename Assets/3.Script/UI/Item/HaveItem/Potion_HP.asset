@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 434009fca7708244ab432851745159fe, type: 3}
-  m_Name: Potion_MP
+  m_Script: {fileID: 11500000, guid: 562a10d2e87173c4faa46ac4972ffd7d, type: 3}
+  m_Name: Potion_HP
   m_EditorClassIdentifier: 
-  itemName: "MP \uD3EC\uC158"
-  itemImage: {fileID: 21300000, guid: 6860d876e506217468103acf540e7d3b, type: 3}
+  item: {fileID: 11400000, guid: 7078d347b95eec1478c3c9a1a08c023d, type: 2}
+  itemCount: 2

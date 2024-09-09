@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 434009fca7708244ab432851745159fe, type: 3}
-  m_Name: Potion_HP
+  m_Name: Potion_MP
   m_EditorClassIdentifier: 
-  itemName: "HP \uD3EC\uC158"
-  itemImage: {fileID: 21300000, guid: 07cc3bcec1d9e554bb1f171683ab054e, type: 3}
+  itemName: "MP \uD3EC\uC158"
+  itemType: 1
+  itemImage: {fileID: 21300000, guid: 6860d876e506217468103acf540e7d3b, type: 3}
+  itemPrefab: {fileID: 186258, guid: c0391bc2170c2054ebb26f1f425004b4, type: 3}
+  weaponType: 

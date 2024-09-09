@@ -5,9 +5,9 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public static bool inventoryActivated = false;
-    public List<Item> items; // 플레이어가 소유한 아이템들을 저장하는 리스트
+    public List<HaveItem> items; // 플레이어가 소유한 아이템들을 저장하는 리스트
 
-    [SerializeField] private GameObject inventoryBase;
+    [SerializeField] private GameObject inventory;
     [SerializeField] private GameObject slotParent; // 슬롯이 배치된 부모 Transform (슬롯들의 부모 오브젝트)
 
     private Slot[] slots; // 각 슬롯을 관리하는 Slot 배열
@@ -15,34 +15,34 @@ public class Inventory : MonoBehaviour
     void Awake()
     {
         slots = slotParent.GetComponentsInChildren<Slot>();
-        //FreshSlot();
+        FreshSlot();
     }
 
     private void Update()
     {
-        TryOpenInventory();
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            TryOpenInventory();
+        }
     }
 
-    private void TryOpenInventory()
+    public void TryOpenInventory()
     {
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            inventoryActivated = !inventoryActivated;
+        inventoryActivated = !inventoryActivated;
 
-            if (inventoryActivated)
-                OpenInventory();
-            else
-                CloseInventory();
-        }
+        if (inventoryActivated)
+            OpenInventory();
+        else
+            CloseInventory();
     }
 
     private void OpenInventory()
     {
-        inventoryBase.SetActive(true);
+        inventory.SetActive(true);
     }
     private void CloseInventory()
     {
-        inventoryBase.SetActive(false);
+        inventory.SetActive(false);
     }
 
     public void AcquireItem(Item _item, int _count = 1)
@@ -51,7 +51,7 @@ public class Inventory : MonoBehaviour
         {
             for (int i = 0; i < slots.Length; i++)
             {
-                if (slots[i].item.itemName != null && slots[i].item.itemName == _item.itemName)
+                if (slots[i].Item != null && slots[i].Item.itemName == _item.itemName)
                 {
                     slots[i].SetSlotCount(_count);
                     return;
@@ -61,7 +61,7 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].item.itemName == null)
+            if (slots[i].Item == null)
             {
                 slots[i].AddItem(_item, _count);
                 return;
@@ -69,24 +69,28 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    ///// <summary>
-    ///// 인벤토리의 슬롯을 새로 고침하는 메서드
-    ///// </summary>
-    //public void FreshSlot()
-    //{
-    //    int i = 0;
-    //    // 아이템과 슬롯이 있는 만큼 슬롯에 아이템을 할당
-    //    for (; i < items.Count && i < slots.Length; i++) 
-    //    {
-    //        slots[i].item = items[i];
-    //    }
+    /// <summary>
+    /// 인벤토리의 슬롯을 새로 고침하는 메서드
+    /// </summary>
+    public void FreshSlot()
+    {
+        if (items == null) return;
 
-    //    // 남은 슬롯이 있으면 빈 슬롯으로 설정
-    //    for (; i < slots.Length; i++)
-    //    {
-    //        slots[i].item = null;
-    //    }
-    //}
+        int i = 0;
+        // 아이템과 슬롯이 있는 만큼 슬롯에 아이템을 할당
+        for (; i < items.Count && i < slots.Length; i++)
+        {
+            slots[i].ItemCount = items[i].itemCount;
+            slots[i].Item = items[i].item;
+        }
+
+        // 남은 슬롯이 있으면 빈 슬롯으로 설정
+        for (; i < slots.Length; i++)
+        {
+            slots[i].ItemCount = 0;
+            slots[i].Item = null;
+        }
+    }
     ///// <summary>
     ///// 인벤토리에 아이템을 추가하는 메서드
     ///// </summary>

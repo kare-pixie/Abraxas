@@ -1,14 +1,19 @@
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "New Item", menuName = "Item/item")]
 public class Item : ScriptableObject
 {
+    public string itemName; // 아이템의 이름
+    public ItemType itemType; // 아이템의 유형
+    public Sprite itemImage; // 아이템의 이미지
+    public GameObject itemPrefab; // 아이템의 프리팹
+
+    public string weaponType; // 무기 유형
     public enum ItemType
     {
-        Matter,
-        Equipment
+        Ingredient,
+        Used,
+        Equipment,
+        ETC
     }
-    public string itemName;
-    public Sprite itemImage;
-    public ItemType itemType;
 }

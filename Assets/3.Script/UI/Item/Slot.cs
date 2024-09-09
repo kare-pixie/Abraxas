@@ -6,12 +6,45 @@ using TMPro;
 
 public class Slot : MonoBehaviour
 {
-    public Item item; // 획득한 아이템
-    public int itemCount; // 획득한 아이템의 개수
+    private Item item; // 획득한 아이템
+
+    private int itemCount; // 획득한 아이템의 개수
 
     [SerializeField] private Image itemImage; // 아이템의 이미지
     [SerializeField] private TMP_Text text_Count;
     [SerializeField] private GameObject CountImage;
+
+    public int ItemCount 
+    {
+        get { return ItemCount; }
+        set { itemCount = value; }
+    }
+    public Item Item
+    {
+        get { return item; }
+        set
+        {
+            item = value;
+
+            // 아이템이 있는 경우
+            if (item != null)
+            {
+                itemImage.sprite = Item.itemImage;
+                SetImageAlpha(1f); // 이미지 표시 (불투명)
+                if (item.itemType != Item.ItemType.Equipment)
+                {
+                    CountImage.SetActive(true);
+                    text_Count.text = itemCount.ToString();
+                }
+            }
+            // 아이템이 없는 경우
+            else
+            {
+                SetImageAlpha(0f); // 이미지 숨기기 (투명)
+                CountImage.SetActive(false);
+            }
+        }
+    }
 
     /// <summary>
     /// 아이템 획득
@@ -74,25 +107,4 @@ public class Slot : MonoBehaviour
         color.a = alpha;  // 알파값 설정
         itemImage.color = color;  // 변경된 색상 다시 설정
     }
-
-    //public Item item
-    //{
-    //    get { return _item; }
-    //    set
-    //    {
-    //        _item = value;
-
-    //        // 아이템이 있는 경우
-    //        if (_item != null)
-    //        {
-    //            itemImage.sprite = item.itemImage;
-    //            SetImageAlpha(1f); // 이미지 표시 (불투명)
-    //        }
-    //        // 아이템이 없는 경우
-    //        else
-    //        {
-    //            SetImageAlpha(0f); // 이미지 숨기기 (투명)
-    //        }
-    //    }
-    //}
 }
