@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 50
   mp: 50
-  damage_min: 1
-  damage_max: 1
-  DEF: 1
+  damage: 1
+  def: 0
   exp: 0

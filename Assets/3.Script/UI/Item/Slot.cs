@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour
+public class Slot : MonoBehaviour, IPointerClickHandler
 {
     private Item item; // 획득한 아이템
 
@@ -69,6 +70,25 @@ public class Slot : MonoBehaviour
         }
         SetImageAlpha(1f); // 이미지 표시 (불투명)
     }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if(eventData.button == PointerEventData.InputButton.Right)
+        {
+            if(item != null)
+            {
+                if(item.itemType == Item.ItemType.Ingredient)
+                {
+                    // 포션 제조 장착
+                }
+                else
+                {
+                    // 사용
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// 아이템 개수 조정
     /// </summary>
