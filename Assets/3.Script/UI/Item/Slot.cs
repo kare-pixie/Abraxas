@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour, IPointerClickHandler
+public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     private Item item; // 획득한 아이템
 
@@ -71,6 +71,56 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         SetImageAlpha(1f); // 이미지 표시 (불투명)
     }
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if(item != null)
+        {
+            DragSlot.instance.dragSlot = this;
+            DragSlot.instance.DragSetImage(itemImage);
+
+            DragSlot.instance.transform.position = eventData.position;
+        }
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (item != null)
+        {
+            DragSlot.instance.transform.position = eventData.position;
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        DragSlot.instance.SetImageAlpha(0f);
+        DragSlot.instance.dragSlot = null;
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        if(DragSlot.instance.dragSlot != null)
+        {
+            ChangeSlot();
+        }
+    }
+
+    private void ChangeSlot()
+    {
+        Item _tempItem = item;
+        int _tempItemCount = itemCount;
+
+        AddItem(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
+
+        if(_tempItem != null)
+        {
+            DragSlot.instance.dragSlot.AddItem(_tempItem, _tempItemCount);
+        }
+        else
+        {
+            DragSlot.instance.dragSlot.ClearSlot();
+        }
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         if(eventData.button == PointerEventData.InputButton.Right)
@@ -79,11 +129,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler
             {
                 if(item.itemType == Item.ItemType.Ingredient)
                 {
-                    // 포션 제조 장착
+                    //todo: 포션 제조
                 }
                 else
                 {
-                    // 사용
+                    Debug.Log(item.itemName + " 을 사용했습니다.");
+                    SetSlotCount(-1);
                 }
             }
         }
