@@ -9,17 +9,12 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
 {
     private Item item; // 획득한 아이템
 
-    private int itemCount; // 획득한 아이템의 개수
+    public int itemCount; // 획득한 아이템의 개수
 
     [SerializeField] private Image itemImage; // 아이템의 이미지
-    [SerializeField] private TMP_Text text_Count;
+    [SerializeField] private TMP_Text textCount;
     [SerializeField] private GameObject CountImage;
 
-    public int ItemCount 
-    {
-        get { return ItemCount; }
-        set { itemCount = value; }
-    }
     public Item Item
     {
         get { return item; }
@@ -35,7 +30,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
                 if (item.itemType != Item.ItemType.Equipment)
                 {
                     CountImage.SetActive(true);
-                    text_Count.text = itemCount.ToString();
+                    textCount.text = itemCount.ToString();
                 }
             }
             // 아이템이 없는 경우
@@ -61,11 +56,11 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
         if(_item.itemType != Item.ItemType.Equipment)
         {
             CountImage.SetActive(true);
-            text_Count.text = this.itemCount.ToString();
+            textCount.text = this.itemCount.ToString();
         }
         else
         {
-            text_Count.text = "0";
+            textCount.text = "0";
             CountImage.SetActive(false);
         }
         SetImageAlpha(1f); // 이미지 표시 (불투명)
@@ -129,12 +124,13 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
             {
                 if(item.itemType == Item.ItemType.Ingredient)
                 {
-                    //todo: 포션 제조
+                    Craft.instance.SetImage(item);
                 }
                 else
                 {
-                    Debug.Log(item.itemName + " 을 사용했습니다.");
+                    Debug.Log(item.itemName + "을 사용했습니다.");
                     SetSlotCount(-1);
+                    Craft.instance.FreshCount();
                 }
             }
         }
@@ -147,7 +143,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
     public void SetSlotCount(int _count)
     {
         itemCount += _count;
-        text_Count.text = itemCount.ToString();
+        textCount.text = itemCount.ToString();
 
         if(itemCount <= 0)
         {
@@ -164,7 +160,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
         itemImage.sprite = null;
         SetImageAlpha(0f);
 
-        text_Count.text = "0";
+        textCount.text = "0";
         CountImage.SetActive(false);
     }
 

@@ -12,7 +12,7 @@ public class Inventory : MonoBehaviour
 
     private Slot[] slots; // 각 슬롯을 관리하는 Slot 배열
 
-    void Awake()
+    private void Awake()
     {
         slots = slotParent.GetComponentsInChildren<Slot>();
         FreshSlot();
@@ -24,6 +24,18 @@ public class Inventory : MonoBehaviour
         {
             TryOpenInventory();
         }
+    }
+
+    public int getItemCount(Item _item)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].Item != null && slots[i].Item.itemName == _item.itemName)
+            {
+                return slots[i].itemCount;
+            }
+        }
+        return 0;
     }
 
     public void TryOpenInventory()
@@ -67,6 +79,19 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
+        Debug.Log("슬롯이 가득 차 있습니다.");
+    }
+
+    public void UseItem(Item _item)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].Item != null && slots[i].Item.itemName == _item.itemName)
+            {
+                slots[i].SetSlotCount(-1);
+                return;
+            }
+        }
     }
 
     /// <summary>
@@ -80,33 +105,15 @@ public class Inventory : MonoBehaviour
         // 아이템과 슬롯이 있는 만큼 슬롯에 아이템을 할당
         for (; i < items.Count && i < slots.Length; i++)
         {
-            slots[i].ItemCount = items[i].itemCount;
+            slots[i].itemCount = items[i].itemCount;
             slots[i].Item = items[i].item;
         }
 
         // 남은 슬롯이 있으면 빈 슬롯으로 설정
         for (; i < slots.Length; i++)
         {
-            slots[i].ItemCount = 0;
+            slots[i].itemCount = 0;
             slots[i].Item = null;
         }
     }
-    ///// <summary>
-    ///// 인벤토리에 아이템을 추가하는 메서드
-    ///// </summary>
-    ///// <param name="_item">추가할 아이템</param>
-    ///// <param name="_count">추가할 아이템의 개수</param>
-    //public void AddItem(Item _item, int _count = 1)
-    //{
-    //    // 아이템을 추가할 수 있는 빈 슬롯이 있을 때만 추가
-    //    if (items.Count < slots.Length)
-    //    {
-    //        items.Add(_item);
-    //        FreshSlot();
-    //    }
-    //    else
-    //    {
-    //        print("슬롯이 가득 차 있습니다.");
-    //    }
-    //}
 }

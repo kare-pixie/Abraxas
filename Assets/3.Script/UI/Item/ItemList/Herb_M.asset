@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 434009fca7708244ab432851745159fe, type: 3}
-  m_Name: Potion_HP
+  m_Name: Herb_M
   m_EditorClassIdentifier: 
-  itemName: "HP \uD3EC\uC158"
-  itemType: 1
-  itemImage: {fileID: 21300000, guid: 07cc3bcec1d9e554bb1f171683ab054e, type: 3}
-  usedItem: {fileID: 0}
-  itemPrefab: {fileID: 128318, guid: c341d70d4dd30454881fcc7fa6d0baa4, type: 3}
+  itemName: Mana Herb
+  itemType: 0
+  itemImage: {fileID: 21300000, guid: be7ee72505b37a944a7e8f7038c119b5, type: 3}
+  itemPrefab: {fileID: 178232, guid: f633a6ba299f53549b3438bac5793fe2, type: 3}
+  usedItem: {fileID: 11400000, guid: 2d356a187eedd3f4fa40b2419fab6f6a, type: 2}
