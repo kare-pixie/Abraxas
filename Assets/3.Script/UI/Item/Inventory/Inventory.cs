@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public static bool inventoryActivated = false;
+    private bool inventoryActivated = false;
     public List<HaveItem> items; // 플레이어가 소유한 아이템들을 저장하는 리스트
 
     [SerializeField] private GameObject inventory;
@@ -51,6 +51,9 @@ public class Inventory : MonoBehaviour
     private void OpenInventory()
     {
         inventory.SetActive(true);
+
+        // 이 오브젝트를 부모 계층에서 가장 마지막 자식으로 이동시켜 가장 위에 표시
+        inventory.transform.SetAsLastSibling();
     }
     private void CloseInventory()
     {

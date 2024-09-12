@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -109,6 +110,9 @@ public class ThirdPersonController : MonoBehaviour
 
     private bool _hasAnimator;
 
+    private Vector3? _targetPosition = null; // 마우스 클릭으로 설정된 목표 위치
+    private bool _isMovingToTarget = false;  // 마우스로 설정된 위치로 이동 중인지 여부
+
     private bool IsCurrentDeviceMouse
     {
         get
@@ -148,13 +152,38 @@ public class ThirdPersonController : MonoBehaviour
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
     }
-
     private void Update()
     {
         _hasAnimator = TryGetComponent(out _animator);
 
         JumpAndGravity();
         GroundedCheck();
+
+        // 마우스 클릭으로 이동할 위치 설정
+        if (Input.GetMouseButtonDown(0)) // 마우스 왼쪽 클릭
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            // 지형이나 이동 가능한 표면에 맞았을 때
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (EventSystem.current.IsPointerOverGameObject())
+                {
+                    return;
+                }
+                _targetPosition = hit.point; // 클릭한 위치를 목표로 설정
+                _isMovingToTarget = true;    // 목표 지점으로 이동 시작
+            }
+        }
+
+        // 키보드로 움직일 때 목표 지점으로의 이동 취소
+        if (_input.Move != Vector2.zero)
+        {
+            _targetPosition = null;  // 목표 지점 초기화
+            _isMovingToTarget = false; // 마우스 클릭으로 이동 취소
+        }
+
         Move();
     }
 
@@ -221,20 +250,66 @@ public class ThirdPersonController : MonoBehaviour
                 _cinemachineTargetYaw, 0.0f);
         }
     }
-
     private void Move()
     {
         // 이동 속도 또는 달리기 속도에 따라 목표 속도 설정
         float targetSpeed = _input.Sprint ? SprintSpeed : MoveSpeed;
 
-        // 입력이 없으면 목표 속도를 0으로 설정
-        if (_input.Move == Vector2.zero) targetSpeed = 0.0f;
+        float inputMagnitude = _input.AnalogMovement ? _input.Move.magnitude : 1f;
 
         // 현재 수평 속도 계산
         float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
         float speedOffset = 0.1f;
-        float inputMagnitude = _input.AnalogMovement ? _input.Move.magnitude : 1f;
+
+        // 카메라의 방향을 기반으로 캐릭터의 이동 방향 설정
+        Vector3 targetDirection;
+
+        // 마우스 클릭으로 목표 지점이 설정된 경우
+        if (_isMovingToTarget && _targetPosition.HasValue)
+        {
+            targetDirection = (_targetPosition.Value - transform.position).normalized; // 목표 지점까지의 방향
+            targetDirection.y = 0; // 수평 이동만 처리
+
+            // 목표 지점까지의 거리
+            float distanceToTarget = Vector3.Distance(transform.position, _targetPosition.Value);
+
+            // 목표 지점에 거의 도달한 경우 멈춤
+            if (distanceToTarget < 0.1f)
+            {
+                _isMovingToTarget = false; // 이동 완료
+                targetSpeed = 0.0f;
+            }
+            else
+            {
+                // 목표 지점을 향해 회전
+                _targetRotation = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            }
+        }
+        else // WASD 또는 방향키 이동 처리
+        {
+            // 입력이 없으면 목표 속도를 0으로 설정
+            if (_input.Move == Vector2.zero) targetSpeed = 0.0f;
+
+            // 입력 방향을 정규화
+            Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;
+
+            // 카메라의 방향을 기반으로 이동 방향을 결정
+            if (_input.Move != Vector2.zero)
+            {
+                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                    RotationSmoothTime);
+
+                // 캐릭터를 카메라 방향에 맞춰 회전
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            }
+
+            // 카메라의 방향을 기반으로 캐릭터의 이동 방향 설정
+            targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+        }
 
         // 목표 속도로 가속 또는 감속
         if (currentHorizontalSpeed < targetSpeed - speedOffset ||
@@ -252,30 +327,11 @@ public class ThirdPersonController : MonoBehaviour
             _speed = targetSpeed;
         }
 
+        // 플레이어 이동
+        _controller.Move(targetDirection * (targetSpeed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+
         _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
         if (_animationBlend < 0.01f) _animationBlend = 0f;
-
-        // 입력 방향을 정규화
-        Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;
-
-        // 카메라의 방향을 기반으로 이동 방향을 결정
-        if (_input.Move != Vector2.zero)
-        {
-            _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                              _mainCamera.transform.eulerAngles.y;
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                RotationSmoothTime);
-
-            // 캐릭터를 카메라 방향에 맞춰 회전
-            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-        }
-
-        // 카메라의 방향을 기반으로 캐릭터의 이동 방향 설정
-        Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-        // 플레이어 이동
-        _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-                         new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
         // 캐릭터가 애니메이터를 사용하는 경우 애니메이터 업데이트
         if (_hasAnimator)
@@ -284,6 +340,7 @@ public class ThirdPersonController : MonoBehaviour
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
         }
     }
+
 
     private void JumpAndGravity()
     {

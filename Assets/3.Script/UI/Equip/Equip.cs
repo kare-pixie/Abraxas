@@ -26,7 +26,7 @@ public class Equip : MonoBehaviour
     [SerializeField] TMP_Text status_exp_txt;
     [SerializeField] TMP_Text equip_exp_txt;
 
-    public static bool EquipActivated = false;
+    private bool EquipActivated = false;
 
     [SerializeField] private GameObject equip;
 
@@ -51,6 +51,9 @@ public class Equip : MonoBehaviour
     private void OpenEquip()
     {
         equip.SetActive(true);
+
+        // 이 오브젝트를 부모 계층에서 가장 마지막 자식으로 이동시켜 가장 위에 표시
+        equip.transform.SetAsLastSibling();
     }
     private void CloseEquip()
     {
