@@ -6,6 +6,13 @@ public class GameMenu : MonoBehaviour
 {
     private bool ganeMenuActivated = false;
     [SerializeField] private GameObject ganeMenu;
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TryOpenGameMenu();
+        }
+    }
     public void TryOpenGameMenu()
     {
         ganeMenuActivated = !ganeMenuActivated;

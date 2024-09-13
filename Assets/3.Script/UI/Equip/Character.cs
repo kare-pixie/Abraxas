@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Equip : MonoBehaviour
+public class Character : MonoBehaviour
 {
     private float hp_cur;
     private float mp_cur;
@@ -15,21 +15,28 @@ public class Equip : MonoBehaviour
     private int exp;
 
     [SerializeField] TMP_Text status_hp_txt;
-    [SerializeField] TMP_Text equip_hp_txt;
+    [SerializeField] TMP_Text character_hp_txt;
 
     [SerializeField] TMP_Text status_mp_txt;
-    [SerializeField] TMP_Text equip_mp_txt;
+    [SerializeField] TMP_Text character_mp_txt;
 
     [SerializeField] TMP_Text damage_txt;
     [SerializeField] TMP_Text def_txt;
 
     [SerializeField] TMP_Text status_exp_txt;
-    [SerializeField] TMP_Text equip_exp_txt;
+    [SerializeField] TMP_Text character_exp_txt;
 
-    private bool EquipActivated = false;
+    private bool characterActivated = false;
 
-    [SerializeField] private GameObject equip;
+    [SerializeField] private GameObject character;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            TryOpenCharacter();
+        }
+    }
     public void InitStatus(float _hp, float _mp, float _damage, float _def, int _exp)
     {
         hp_max = _hp;
@@ -38,25 +45,25 @@ public class Equip : MonoBehaviour
         def = _def;
         exp = _exp;
     }
-    public void TryOpenEquip()
+    public void TryOpenCharacter()
     {
-        EquipActivated = !EquipActivated;
+        characterActivated = !characterActivated;
 
-        if (EquipActivated)
-            OpenEquip();
+        if (characterActivated)
+            OpenCharacter();
         else
-            CloseEquip();
+            CloseCharacter();
     }
 
-    private void OpenEquip()
+    private void OpenCharacter()
     {
-        equip.SetActive(true);
+        character.SetActive(true);
 
         // 이 오브젝트를 부모 계층에서 가장 마지막 자식으로 이동시켜 가장 위에 표시
-        equip.transform.SetAsLastSibling();
+        character.transform.SetAsLastSibling();
     }
-    private void CloseEquip()
+    private void CloseCharacter()
     {
-        equip.SetActive(false);
+        character.SetActive(false);
     }
 }

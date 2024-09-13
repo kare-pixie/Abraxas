@@ -19865,7 +19865,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 41565440}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -20186,8 +20186,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1478155646}
-        m_TargetAssemblyTypeName: Equip, Assembly-CSharp
-        m_MethodName: TryOpenEquip
+        m_TargetAssemblyTypeName: Character, Assembly-CSharp
+        m_MethodName: TryOpenCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23824,7 +23824,7 @@ GameObject:
   - component: {fileID: 1351834842}
   - component: {fileID: 1351834841}
   m_Layer: 5
-  m_Name: Equip
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23894,8 +23894,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1478155646}
-        m_TargetAssemblyTypeName: Equip, Assembly-CSharp
-        m_MethodName: TryOpenEquip
+        m_TargetAssemblyTypeName: Character, Assembly-CSharp
+        m_MethodName: TryOpenCharacter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26173,7 +26173,7 @@ GameObject:
   - component: {fileID: 1444304715}
   - component: {fileID: 1444304716}
   m_Layer: 5
-  m_Name: Equip
+  m_Name: Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26791,14 +26791,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status_hp_txt: {fileID: 1463170218}
-  equip_hp_txt: {fileID: 1497272513}
+  character_hp_txt: {fileID: 1497272513}
   status_mp_txt: {fileID: 425322521}
-  equip_mp_txt: {fileID: 229604402}
+  character_mp_txt: {fileID: 229604402}
   damage_txt: {fileID: 402212749}
   def_txt: {fileID: 799413401}
   status_exp_txt: {fileID: 2050782069}
-  equip_exp_txt: {fileID: 635034577}
-  equip: {fileID: 1444304714}
+  character_exp_txt: {fileID: 635034577}
+  character: {fileID: 1444304714}
 --- !u!114 &1478155647
 MonoBehaviour:
   m_ObjectHideFlags: 0

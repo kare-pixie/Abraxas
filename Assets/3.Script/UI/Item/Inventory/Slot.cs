@@ -66,9 +66,30 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
         SetImageAlpha(1f); // 이미지 표시 (불투명)
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log(eventData.button);
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            if (item != null)
+            {
+                if (item.itemType == Item.ItemType.Ingredient)
+                {
+                    Craft.instance.SetImage(item);
+                }
+                else
+                {
+                    Debug.Log(item.itemName + "을 사용했습니다.");
+                    SetSlotCount(-1);
+                    Craft.instance.FreshCount();
+                }
+            }
+        }
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(item != null)
+        if (item != null)
         {
             DragSlot.instance.dragSlot = this;
             DragSlot.instance.DragSetImage(itemImage);
@@ -113,26 +134,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
         else
         {
             DragSlot.instance.dragSlot.ClearSlot();
-        }
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if(eventData.button == PointerEventData.InputButton.Right)
-        {
-            if(item != null)
-            {
-                if(item.itemType == Item.ItemType.Ingredient)
-                {
-                    Craft.instance.SetImage(item);
-                }
-                else
-                {
-                    Debug.Log(item.itemName + "을 사용했습니다.");
-                    SetSlotCount(-1);
-                    Craft.instance.FreshCount();
-                }
-            }
         }
     }
 
