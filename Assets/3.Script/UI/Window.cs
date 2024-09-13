@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Window : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
+public class Window : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
     private RectTransform rectTransform; // UI의 RectTransform 참조
     private Vector2 originalPosition;    // 드래그 시작 시점의 원래 위치
@@ -9,7 +9,7 @@ public class Window : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
     private void Awake()
     {
         // RectTransform 컴포넌트 가져오기
-        rectTransform = GetComponent<RectTransform>();
+        rectTransform = transform.parent.GetComponent<RectTransform>();
     }
 
     // 마우스를 누를 때 호출되는 메서드
@@ -34,11 +34,5 @@ public class Window : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointer
         {
             rectTransform.anchoredPosition = localPointerPosition - mouseOffset;
         }
-    }
-
-    // 마우스 버튼을 놓을 때 호출되는 메서드
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        // 드래그 완료 후에 추가적인 처리를 할 수 있음
     }
 }

@@ -68,7 +68,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(eventData.button);
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             if (item != null)
