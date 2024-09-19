@@ -110,6 +110,8 @@ public class ThirdPersonController : MonoBehaviour
 
     private bool _hasAnimator;
 
+    private bool _isMovementBlocked;
+
     private Vector3? _targetPosition = null; // 마우스 클릭으로 설정된 목표 위치
     private bool _isMovingToTarget = false;  // 마우스로 설정된 위치로 이동 중인지 여부
 
@@ -184,7 +186,29 @@ public class ThirdPersonController : MonoBehaviour
             _isMovingToTarget = false; // 마우스 클릭으로 이동 취소
         }
 
-        Move();
+        // 현재 재생 중인 애니메이션이 BlockMovement 태그를 가졌는지 확인
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsTag("BlockMovement"))
+        {
+            _isMovementBlocked = true;
+            _targetPosition = null;
+            _isMovingToTarget = false; // 이동 취소
+            _animationBlend = 0; // 걷는 애니메이션 초기화
+            if (_hasAnimator)
+            {
+                _animator.SetFloat(_animIDSpeed, _animationBlend);
+            }
+        }
+        else
+        {
+            _isMovementBlocked = false;
+        }
+
+        // 캐릭터 이동
+        if (!_isMovementBlocked)
+        {
+            Move();
+        }
     }
 
     private void LateUpdate()

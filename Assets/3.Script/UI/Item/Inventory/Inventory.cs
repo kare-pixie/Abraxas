@@ -57,6 +57,8 @@ public class Inventory : MonoBehaviour
     }
     private void CloseInventory()
     {
+        DragSlot.instance.SetImageAlpha(0f);
+
         inventory.SetActive(false);
     }
 

@@ -82,7 +82,6 @@ public class PlayerInputs : MonoBehaviour
 		playerCamera.fieldOfView = currentFov;
 	}
 #endif
-
 	public void MoveInput(Vector2 newMoveDirection)
 	{
 		move = newMoveDirection;

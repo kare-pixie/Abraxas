@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    private Item item; // »πµÊ«— æ∆¿Ã≈€
+    public Item item; // »πµÊ«— æ∆¿Ã≈€
 
     public int itemCount; // »πµÊ«— æ∆¿Ã≈€¿« ∞≥ºˆ
 
