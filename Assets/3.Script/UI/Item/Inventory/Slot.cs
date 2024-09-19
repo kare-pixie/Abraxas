@@ -13,7 +13,13 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
 
     [SerializeField] private Image itemImage; // 아이템의 이미지
     [SerializeField] private TMP_Text textCount;
-    [SerializeField] private GameObject CountImage;
+    [SerializeField] private GameObject countImage;
+    private Inventory inventory;
+
+    private void Awake()
+    {
+        inventory = FindObjectOfType<Inventory>();
+    }
 
     public Item Item
     {
@@ -29,7 +35,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
                 SetImageAlpha(1f); // 이미지 표시 (불투명)
                 if (item.itemType != Item.ItemType.Equipment)
                 {
-                    CountImage.SetActive(true);
+                    countImage.SetActive(true);
                     textCount.text = itemCount.ToString();
                 }
             }
@@ -37,7 +43,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
             else
             {
                 SetImageAlpha(0f); // 이미지 숨기기 (투명)
-                CountImage.SetActive(false);
+                countImage.SetActive(false);
             }
         }
     }
@@ -55,13 +61,13 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
 
         if(_item.itemType != Item.ItemType.Equipment)
         {
-            CountImage.SetActive(true);
+            countImage.SetActive(true);
             textCount.text = this.itemCount.ToString();
         }
         else
         {
             textCount.text = "0";
-            CountImage.SetActive(false);
+            countImage.SetActive(false);
         }
         SetImageAlpha(1f); // 이미지 표시 (불투명)
     }
@@ -78,9 +84,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
                 }
                 else
                 {
-                    Debug.Log(item.itemName + "을 사용했습니다.");
-                    SetSlotCount(-1);
-                    Craft.instance.FreshCount();
+                    UseItem();
                 }
             }
         }
@@ -135,6 +139,14 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
             DragSlot.instance.dragSlot.ClearSlot();
         }
     }
+    public void UseItem(int amount = 1)
+    {
+        Debug.Log(item.itemName + "을 사용했습니다.");
+        SetSlotCount(-amount);
+        Craft.instance.FreshCount();
+        inventory.potionSlot1.FreshCount();
+        inventory.potionSlot2.FreshCount();
+    }
 
     /// <summary>
     /// 아이템 개수 조정
@@ -161,7 +173,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
         SetImageAlpha(0f);
 
         textCount.text = "0";
-        CountImage.SetActive(false);
+        countImage.SetActive(false);
     }
 
     /// <summary>

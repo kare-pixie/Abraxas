@@ -14,12 +14,18 @@ public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
     [SerializeField] private Image itemImage; // 아이템의 이미지
     [SerializeField] private TMP_Text textCount;
     [SerializeField] private GameObject CountImage;
+
+    private Inventory inventory;
+
+    private void Start()
+    {
+        inventory = FindAnyObjectByType<Inventory>();
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            // 포션 사용
-            //todo: 포션 사용
+            UseItem();
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
@@ -33,11 +39,44 @@ public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
             ChangeSlot();
         }
     }
+    public void FreshCount()
+    {
+        if (item == null) return;
+
+        itemCount = inventory.getItemCount(item);
+
+        if (itemCount == 0)
+        {
+            ClearSlot();
+            return;
+        }
+
+        textCount.text = itemCount.ToString();
+    }
+    public void UseItem()
+    {
+        if (item == null)
+        {
+            return;
+        }
+        //todo: 포션 사용
+        inventory.UseItem(item);
+        itemCount = inventory.getItemCount(item);
+
+        if (itemCount == 0)
+        {
+            ClearSlot();
+        }
+        else
+        {
+            textCount.text = itemCount.ToString();
+        }
+    }
     private void ChangeSlot()
     {
         if(DragSlot.instance.dragSlot.item.itemType.Equals(Item.ItemType.Used))
         {
-            SetPotion(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
+            SetSlot(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
         }
     }
     private void ClearSlot()
@@ -50,7 +89,7 @@ public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         textCount.text = "0";
         CountImage.SetActive(false);
     }
-    public void SetPotion(Item _item, int _count = 1)
+    private void SetSlot(Item _item, int _count = 1)
     {
         this.item = _item;
         this.itemCount = _count;

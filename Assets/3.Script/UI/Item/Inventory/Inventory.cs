@@ -7,6 +7,9 @@ public class Inventory : MonoBehaviour
     private bool inventoryActivated = false;
     public List<HaveItem> items; // 플레이어가 소유한 아이템들을 저장하는 리스트
 
+    public PotionSlot potionSlot1; // 하단바 포션 슬롯
+    public PotionSlot potionSlot2; // 하단바 포션 슬롯
+
     [SerializeField] private GameObject inventory;
     [SerializeField] private GameObject slotParent; // 슬롯이 배치된 부모 Transform (슬롯들의 부모 오브젝트)
 
@@ -23,6 +26,14 @@ public class Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             TryOpenInventory();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            potionSlot1.UseItem();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            potionSlot2.UseItem();
         }
     }
 
