@@ -16,6 +16,8 @@ public class AttackController : MonoBehaviour
     private Animator _animator;
     private bool _hasAnimator;
 
+    [SerializeField] VFXController fXController;
+
     private void Start()
     {
         _hasAnimator = TryGetComponent(out _animator);
@@ -24,6 +26,8 @@ public class AttackController : MonoBehaviour
     private void Update()
     {
         _hasAnimator = TryGetComponent(out _animator);
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsTag("BlockMovement")) return;
         if (Input.GetKeyDown(KeyCode.F1))
         {
             if (_hasAnimator)
@@ -50,6 +54,8 @@ public class AttackController : MonoBehaviour
             if (_hasAnimator)
             {
                 _animator.SetTrigger(_animIDSlash1);
+
+                fXController.Play(2, transform.GetChild(1));
             }
         }
         if (Input.GetKeyDown(KeyCode.F5))
@@ -57,6 +63,8 @@ public class AttackController : MonoBehaviour
             if (_hasAnimator)
             {
                 _animator.SetTrigger(_animIDSlash2);
+
+                fXController.Play(3, transform.GetChild(1));
             }
         }
         if (Input.GetKeyDown(KeyCode.F6))
