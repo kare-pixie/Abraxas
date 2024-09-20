@@ -48,8 +48,8 @@ public class PlayerInputs : MonoBehaviour
 
 	public void OnJump(InputValue value)
 	{
-		//JumpInput(value.isPressed);
-	}
+        JumpInput(value.isPressed);
+    }
 
 	public void OnSprint(InputValue value)
 	{

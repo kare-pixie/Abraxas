@@ -27,7 +27,7 @@ public class AttackController : MonoBehaviour
     {
         _hasAnimator = TryGetComponent(out _animator);
         AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsTag("BlockMovement")) return;
+        if (stateInfo.IsTag("BlockMovement") || stateInfo.IsTag("Jump")) return;
         if (Input.GetKeyDown(KeyCode.F1))
         {
             if (_hasAnimator)

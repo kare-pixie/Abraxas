@@ -13,11 +13,11 @@ public class Inventory : MonoBehaviour
     [SerializeField] private GameObject inventory;
     [SerializeField] private GameObject slotParent; // 슬롯이 배치된 부모 Transform (슬롯들의 부모 오브젝트)
 
-    private Slot[] slots; // 각 슬롯을 관리하는 Slot 배열
+    private ItemSlot[] slots; // 각 슬롯을 관리하는 Slot 배열
 
     private void Awake()
     {
-        slots = slotParent.GetComponentsInChildren<Slot>();
+        slots = slotParent.GetComponentsInChildren<ItemSlot>();
         FreshSlot();
     }
 

@@ -5,11 +5,11 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    public Item item; // 획득한 아이템
+    public Item item; // 아이템
 
-    public int itemCount; // 획득한 아이템의 개수
+    public int itemCount; // 아이템의 개수
 
     [SerializeField] private Image itemImage; // 아이템의 이미지
     [SerializeField] private TMP_Text textCount;
@@ -138,6 +138,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDra
         {
             DragSlot.instance.dragSlot.ClearSlot();
         }
+        DragSlot.instance.dragSlot = null;
     }
     public void UseItem(int amount = 1)
     {

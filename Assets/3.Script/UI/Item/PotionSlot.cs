@@ -77,6 +77,7 @@ public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         if(DragSlot.instance.dragSlot.item.itemType.Equals(Item.ItemType.Used))
         {
             SetSlot(DragSlot.instance.dragSlot.item, DragSlot.instance.dragSlot.itemCount);
+            DragSlot.instance.dragSlot = null;
         }
     }
     private void ClearSlot()

@@ -6,7 +6,7 @@ using TMPro;
 
 public class Craft : MonoBehaviour
 {
-    static public Craft instance;
+    static public Craft instance = null;
 
     [SerializeField] private Image ingredientItemImage; // 아이템 이미지
     [SerializeField] private Image usedItemImage; // 아이템 이미지
@@ -19,11 +19,17 @@ public class Craft : MonoBehaviour
     private Inventory inventory;
     private int ingredientCnt;
     private int usedCnt;
-
-    private void Start()
+    private void Awake()
     {
-        instance = this;
-        inventory = FindAnyObjectByType<Inventory>();
+        if (null == instance)
+        {
+            instance = this;
+            inventory = FindAnyObjectByType<Inventory>();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void SetImage(Item _item)
@@ -55,7 +61,7 @@ public class Craft : MonoBehaviour
         ingredientItemCount.text = ingredientCnt.ToString();
         usedItemImageCount.text = usedCnt.ToString();
     }
-    private void ClearItem()
+    public void ClearItem()
     {
         ingredientItemCount.text = string.Empty;
         usedItemImageCount.text = string.Empty;

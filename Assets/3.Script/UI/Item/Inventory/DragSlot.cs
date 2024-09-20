@@ -5,19 +5,27 @@ using UnityEngine.UI;
 
 public class DragSlot : MonoBehaviour
 {
-    static public DragSlot instance;
+    static public DragSlot instance = null;
 
-    public Slot dragSlot;
+    public ItemSlot dragSlot;
+    public SkillSlot dragSkillSlot;
 
-    [SerializeField] private Image itemImage; // 아이템 이미지
+    [SerializeField] private Image image; // 아이템 이미지
 
-    private void Start()
+    private void Awake()
     {
-        instance = this;
+        if (null == instance)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     public void DragSetImage(Image _itemImage)
     {
-        itemImage.sprite = _itemImage.sprite;
+        image.sprite = _itemImage.sprite;
         SetImageAlpha(1f);
     }
 
@@ -27,8 +35,8 @@ public class DragSlot : MonoBehaviour
     /// <param name="alpha">투명도</param>
     public void SetImageAlpha(float alpha)
     {
-        Color color = itemImage.color;  // 현재 이미지의 색상 값을 가져옴
+        Color color = image.color;  // 현재 이미지의 색상 값을 가져옴
         color.a = alpha;  // 알파값 설정
-        itemImage.color = color;  // 변경된 색상 다시 설정
+        image.color = color;  // 변경된 색상 다시 설정
     }
 }

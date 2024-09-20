@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3620452686362406777}
-  - component: {fileID: 7057426336062629669}
+  - component: {fileID: 4303458233849038614}
   m_Layer: 5
-  m_Name: Slot
+  m_Name: ItemSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,7 +39,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &7057426336062629669
+--- !u!114 &4303458233849038614
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 676683653784445453}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b12b4eab80fa0a49809bc143c16a41d, type: 3}
+  m_Script: {fileID: 11500000, guid: 23269f34927c7e54d91cba4781ba2a40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 0}
@@ -56,7 +56,6 @@ MonoBehaviour:
   itemImage: {fileID: 1567134111963274086}
   textCount: {fileID: 4256379899079568060}
   countImage: {fileID: 4343886429662046685}
-  inventory: {fileID: 0}
 --- !u!1 &2086433424848056933
 GameObject:
   m_ObjectHideFlags: 0
