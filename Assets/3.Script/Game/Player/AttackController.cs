@@ -4,86 +4,53 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
-    // animation IDs
-    private int _animIDBlock;
-    private int _animIDAttack1;
-    private int _animIDAttack2;
-    private int _animIDSlash1;
-    private int _animIDSlash2;
-    private int _animIDSlash3;
-    private int _animIDBuff;
+    private Animator animator;
+    private bool hasAnimator;
 
-    private Animator _animator;
-    private bool _hasAnimator;
-
-    [SerializeField] VFXController fXController;
+    public SkillBarSlot SkillSlot1;
+    public SkillBarSlot SkillSlot2;
+    public SkillBarSlot SkillSlot3;
+    public SkillBarSlot SkillSlot4;
+    public SkillBarSlot SkillSlot5;
+    public SkillBarSlot SkillSlot6;
 
     private void Start()
     {
-        _hasAnimator = TryGetComponent(out _animator);
-        AssignAnimationIDs();
+        hasAnimator = TryGetComponent(out animator);
     }
     private void Update()
     {
-        _hasAnimator = TryGetComponent(out _animator);
-        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        hasAnimator = TryGetComponent(out animator);
+
+        if (!hasAnimator) return;
+
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
         if (stateInfo.IsTag("BlockMovement") || stateInfo.IsTag("Jump")) return;
+
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            if (_hasAnimator)
-            {
-                _animator.SetTrigger(_animIDBuff);
-            }
+            SkillSlot1.UseSkill();
         }
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            if (_hasAnimator)
-            {
-                _animator.SetTrigger(_animIDAttack1);
-            }
+            SkillSlot2.UseSkill();
         }
         if (Input.GetKeyDown(KeyCode.F3))
         {
-            if (_hasAnimator)
-            {
-                _animator.SetTrigger(_animIDAttack2);
-            }
+            SkillSlot3.UseSkill();
         }
         if (Input.GetKeyDown(KeyCode.F4))
         {
-            if (_hasAnimator)
-            {
-                _animator.SetTrigger(_animIDSlash1);
-
-                fXController.Play(2, transform.GetChild(1));
-            }
+            SkillSlot4.UseSkill();
         }
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            if (_hasAnimator)
-            {
-                _animator.SetTrigger(_animIDSlash2);
-
-                fXController.Play(3, transform.GetChild(1));
-            }
+            SkillSlot5.UseSkill();
         }
         if (Input.GetKeyDown(KeyCode.F6))
         {
-            if (_hasAnimator)
-            {
-                _animator.SetTrigger(_animIDSlash3);
-            }
+            SkillSlot6.UseSkill();
         }
     }
-    private void AssignAnimationIDs()
-    {
-        _animIDBlock = Animator.StringToHash("Block");
-        _animIDAttack1 = Animator.StringToHash("Attack1");
-        _animIDAttack2 = Animator.StringToHash("Attack2");
-        _animIDSlash1 = Animator.StringToHash("Slash1");
-        _animIDSlash2 = Animator.StringToHash("Slash2");
-        _animIDSlash3 = Animator.StringToHash("Slash3");
-        _animIDBuff = Animator.StringToHash("Buff");
-    }
-
 }

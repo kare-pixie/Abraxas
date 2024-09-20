@@ -11,13 +11,13 @@ public class VFXController : MonoBehaviour
     private Coroutine mCoEnable; // 비활성화 코루틴
     private Coroutine mCoDisable; // 비활성화 코루틴
 
-    [SerializeField] private GameObject _Attack1;
-    [SerializeField] private GameObject _Attack2;
-    [SerializeField] private GameObject _Slash1;
-    [SerializeField] private GameObject _Slash2;
-    [SerializeField] private GameObject _Slash3;
+    [SerializeField] private GameObject attack1;
+    [SerializeField] private GameObject attack2;
+    [SerializeField] private GameObject slash1;
+    [SerializeField] private GameObject slash2;
+    [SerializeField] private GameObject slash3;
 
-    public void Play(int idx, Transform targetTransform = null)
+    public void Play(string ani, Transform targetTransform = null)
     {
         if (targetTransform != null)
         {
@@ -28,47 +28,46 @@ public class VFXController : MonoBehaviour
         if (mCoEnable != null)
             StopCoroutine(mCoDisable);
 
-        mCoEnable = StartCoroutine(CoEnable(idx));
+        mCoEnable = StartCoroutine(CoEnable(ani));
 
         if (mCoDisable != null)
             StopCoroutine(mCoDisable);
 
-        mCoDisable = StartCoroutine(CoDisable(idx));
+        mCoDisable = StartCoroutine(CoDisable(ani));
     }
 
-    private IEnumerator CoDisable(int idx)
+    private IEnumerator CoDisable(string ani)
     {
         yield return new WaitForSeconds(mLifeTime);
-        switch(idx)
+        switch (ani)
         {
-            case 0:
-                _Attack1.SetActive(false); break;
-            case 1:
-                _Attack2.SetActive(false);break;
-            case 2:
-                _Slash1.SetActive(false);break;
-            case 3:
-                _Slash2.SetActive(false);break;
-            case 4:
-                _Slash3.SetActive(false);break;
+            //case "Attack1":
+            //    attack1.SetActive(false); break;
+            //case "Attack2":
+            //    attack2.SetActive(false); break;
+            case "Slash1":
+                slash1.SetActive(false); break;
+            case "Slash2":
+                slash2.SetActive(false); break;
+            //case "Slash3":
+            //    slash3.SetActive(false); break;
         }
     }
-    private IEnumerator CoEnable(int idx)
+    private IEnumerator CoEnable(string ani)
     {
         yield return new WaitForSeconds(mStartTime);
-        switch (idx)
+        switch (ani)
         {
-            case 0:
-                _Attack1.SetActive(true); break;
-            case 1:
-                _Attack2.SetActive(true); break;
-            case 2:
-                _Slash1.SetActive(true); break;
-            case 3:
-                _Slash2.SetActive(true); break;
-            case 4:
-                _Slash3.SetActive(true); break;
+            //case "Attack1":
+            //    attack1.SetActive(true); break;
+            //case "Attack2":
+            //    attack2.SetActive(true); break;
+            case "Slash1":
+                slash1.SetActive(true); break;
+            case "Slash2":
+                slash2.SetActive(true); break;
+            //case "Slash3":
+            //    slash3.SetActive(true); break;
         }
-        CoDisable(idx);
     }
 }

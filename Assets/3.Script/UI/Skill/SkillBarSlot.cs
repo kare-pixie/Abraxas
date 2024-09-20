@@ -8,6 +8,13 @@ using UnityEngine.UI;
 public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
 {
     public Skill skill;
+    
+    private int animID;
+    private string ani;
+
+    [SerializeField] private Animator animator;
+    [SerializeField] private VFXController fXController;
+    [SerializeField] private GameObject character;
 
     [SerializeField] private Image skillImage; // 스킬 이미지
 
@@ -37,6 +44,8 @@ public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         {
             return;
         }
+        animator.SetTrigger(animID);
+        fXController.Play(ani, character.transform.GetChild(1));
         //todo: 스킬사용
     }
     private void ChangeSlot()
@@ -50,9 +59,12 @@ public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         skillImage.sprite = null;
         SetImageAlpha(0f);
     }
-    private void SetSlot(SkillSlot _skill)
+    private void SetSlot(SkillSlot _slot)
     {
-        this.skillImage.sprite = _skill.skill.skillImage;
+        skill = _slot.skill;
+        skillImage.sprite = _slot.skill.skillImage;
+        ani = _slot.skill.ani;
+        animID = Animator.StringToHash(_slot.skill.ani);
 
         SetImageAlpha(1f); // 이미지 표시 (불투명)
     }

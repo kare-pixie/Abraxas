@@ -16,3 +16,4 @@ MonoBehaviour:
   skillName: "\uC5C5\uC6CC\uB4DC \uBE14\uB85C\uC6B0"
   skillExplain: "\uBC11\uC5D0\uC11C \uC704\uB85C \uC801\uC744 \uCE58\uB294 \uAE30\uC220"
   skillLevel: 1
+  ani: Slash2

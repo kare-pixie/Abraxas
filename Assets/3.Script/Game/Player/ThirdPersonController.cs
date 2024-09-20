@@ -76,51 +76,51 @@ public class ThirdPersonController : MonoBehaviour
     [SerializeField] private float cameraSensitivity = 0.1f;  // 마우스 감도 (회전 속도)
 
     // cinemachine
-    private float _cinemachineTargetYaw;
-    private float _cinemachineTargetPitch;
+    private float cinemachineTargetYaw;
+    private float cinemachineTargetPitch;
 
     // player
-    private float _speed;
-    private float _animationBlend;
-    private float _targetRotation = 0.0f;
-    private float _rotationVelocity;
-    private float _verticalVelocity;
-    private float _terminalVelocity = 53.0f;
+    private float speed;
+    private float animationBlend;
+    private float targetRotation = 0.0f;
+    private float rotationVelocity;
+    private float verticalVelocity;
+    private float terminalVelocity = 53.0f;
 
     // timeout deltatime
-    private float _jumpTimeoutDelta;
-    private float _fallTimeoutDelta;
+    private float jumpTimeoutDelta;
+    private float fallTimeoutDelta;
 
     // animation IDs
-    private int _animIDSpeed;
-    private int _animIDGrounded;
-    private int _animIDJump;
-    private int _animIDFreeFall;
-    private int _animIDMotionSpeed;
+    private int animIDSpeed;
+    private int animIDGrounded;
+    private int animIDJump;
+    private int animIDFreeFall;
+    private int animIDMotionSpeed;
 
 #if ENABLE_INPUT_SYSTEM
-        private PlayerInput _playerInput;
+        private PlayerInput playerInput;
 #endif
-    private Animator _animator;
-    private CharacterController _controller;
-    private PlayerInputs _input;
-    private GameObject _mainCamera;
+    private Animator animator;
+    private CharacterController controller;
+    private PlayerInputs input;
+    private GameObject mainCamera;
 
-    private const float _threshold = 0.01f;
+    private const float threshold = 0.01f;
 
-    private bool _hasAnimator;
+    private bool hasAnimator;
 
-    private bool _isMovementBlocked;
+    private bool isMovementBlocked;
 
-    private Vector3? _targetPosition = null; // 마우스 클릭으로 설정된 목표 위치
-    private bool _isMovingToTarget = false;  // 마우스로 설정된 위치로 이동 중인지 여부
+    private Vector3? targetPosition = null; // 마우스 클릭으로 설정된 목표 위치
+    private bool isMovingToTarget = false;  // 마우스로 설정된 위치로 이동 중인지 여부
 
     private bool IsCurrentDeviceMouse
     {
         get
         {
 #if ENABLE_INPUT_SYSTEM
-                return _playerInput.currentControlScheme == "KeyboardMouse";
+                return playerInput.currentControlScheme == "KeyboardMouse";
 #else
             return false;
 #endif
@@ -131,32 +131,32 @@ public class ThirdPersonController : MonoBehaviour
     private void Awake()
     {
         // 메인 카메라를 참조
-        if (_mainCamera == null)
+        if (mainCamera == null)
         {
-            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
     }
 
     private void Start()
     {
-        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+        cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
-        _hasAnimator = TryGetComponent(out _animator);
-        _controller = GetComponent<CharacterController>();
-        _input = GetComponent<PlayerInputs>();
+        hasAnimator = TryGetComponent(out animator);
+        controller = GetComponent<CharacterController>();
+        input = GetComponent<PlayerInputs>();
 #if ENABLE_INPUT_SYSTEM
-            _playerInput = GetComponent<PlayerInput>();
+            playerInput = GetComponent<PlayerInput>();
 #endif
 
         AssignAnimationIDs();
 
         // 시작 시 타임아웃 값을 초기화
-        _jumpTimeoutDelta = JumpTimeout;
-        _fallTimeoutDelta = FallTimeout;
+        jumpTimeoutDelta = JumpTimeout;
+        fallTimeoutDelta = FallTimeout;
     }
     private void Update()
     {
-        _hasAnimator = TryGetComponent(out _animator);
+        hasAnimator = TryGetComponent(out animator);
 
         JumpAndGravity();
         GroundedCheck();
@@ -174,38 +174,38 @@ public class ThirdPersonController : MonoBehaviour
                 {
                     return;
                 }
-                _targetPosition = hit.point; // 클릭한 위치를 목표로 설정
-                _isMovingToTarget = true;    // 목표 지점으로 이동 시작
+                targetPosition = hit.point; // 클릭한 위치를 목표로 설정
+                isMovingToTarget = true;    // 목표 지점으로 이동 시작
             }
         }
 
         // 키보드로 움직일 때 목표 지점으로의 이동 취소
-        if (_input.Move != Vector2.zero)
+        if (input.Move != Vector2.zero)
         {
-            _targetPosition = null;  // 목표 지점 초기화
-            _isMovingToTarget = false; // 마우스 클릭으로 이동 취소
+            targetPosition = null;  // 목표 지점 초기화
+            isMovingToTarget = false; // 마우스 클릭으로 이동 취소
         }
 
         // 현재 재생 중인 애니메이션이 BlockMovement 태그를 가졌는지 확인
-        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsTag("BlockMovement"))
         {
-            _isMovementBlocked = true;
-            _targetPosition = null;
-            _isMovingToTarget = false; // 이동 취소
-            _animationBlend = 0; // 걷는 애니메이션 초기화
-            if (_hasAnimator)
+            isMovementBlocked = true;
+            targetPosition = null;
+            isMovingToTarget = false; // 이동 취소
+            animationBlend = 0; // 걷는 애니메이션 초기화
+            if (hasAnimator)
             {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
+                animator.SetFloat(animIDSpeed, animationBlend);
             }
         }
         else
         {
-            _isMovementBlocked = false;
+            isMovementBlocked = false;
         }
 
         // 캐릭터 이동
-        if (!_isMovementBlocked)
+        if (!isMovementBlocked)
         {
             Move();
         }
@@ -218,11 +218,11 @@ public class ThirdPersonController : MonoBehaviour
 
     private void AssignAnimationIDs()
     {
-        _animIDSpeed = Animator.StringToHash("Speed");
-        _animIDGrounded = Animator.StringToHash("Grounded");
-        _animIDJump = Animator.StringToHash("Jump");
-        _animIDFreeFall = Animator.StringToHash("FreeFall");
-        _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        animIDSpeed = Animator.StringToHash("Speed");
+        animIDGrounded = Animator.StringToHash("Grounded");
+        animIDJump = Animator.StringToHash("Jump");
+        animIDFreeFall = Animator.StringToHash("FreeFall");
+        animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }
 
     private void GroundedCheck()
@@ -234,55 +234,55 @@ public class ThirdPersonController : MonoBehaviour
             QueryTriggerInteraction.Ignore);
 
         // 캐릭터가 애니메이터를 사용하는 경우 애니메이터 업데이트
-        if (_hasAnimator)
+        if (hasAnimator)
         {
-            _animator.SetBool(_animIDGrounded, Grounded);
+            animator.SetBool(animIDGrounded, Grounded);
         }
     }
 
     private void CameraRotation()
     {
-        if (_input.isRightClicking)
+        if (input.isRightClicking)
         {
             // 현재 마우스 위치 가져오기
             Vector2 currentMousePosition = Mouse.current.position.ReadValue();
 
             // 마우스의 X축 이동량 계산 (이동량에 민감도를 곱함)
-            float deltaX = currentMousePosition.x - _input.lastMousePosition.x;
+            float deltaX = currentMousePosition.x - input.lastMousePosition.x;
             float rotationY = deltaX * cameraSensitivity;
 
             // 게임 오브젝트의 Y축 회전
             cameraRoot.transform.Rotate(0f, rotationY, 0f);
 
             // 마지막 마우스 위치 업데이트
-            _input.lastMousePosition = currentMousePosition;
+            input.lastMousePosition = currentMousePosition;
 
-            _cinemachineTargetYaw += ClampAngle(rotationY, float.MinValue, float.MaxValue);
+            cinemachineTargetYaw += ClampAngle(rotationY, float.MinValue, float.MaxValue);
 
             // Cinemachine 카메라 업데이트
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-                _cinemachineTargetYaw, 0.0f);
+            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch + CameraAngleOverride,
+                cinemachineTargetYaw, 0.0f);
         }
         else
         {
             // 회전 값을 360도 범위로 제한
-            _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+            cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
+            cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, BottomClamp, TopClamp);
 
             // Cinemachine 카메라 업데이트
-            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-                _cinemachineTargetYaw, 0.0f);
+            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(cinemachineTargetPitch + CameraAngleOverride,
+                cinemachineTargetYaw, 0.0f);
         }
     }
     private void Move()
     {
         // 이동 속도 또는 달리기 속도에 따라 목표 속도 설정
-        float targetSpeed = _input.Sprint ? SprintSpeed : MoveSpeed;
+        float targetSpeed = input.Sprint ? SprintSpeed : MoveSpeed;
 
-        float inputMagnitude = _input.AnalogMovement ? _input.Move.magnitude : 1f;
+        float inputMagnitude = input.AnalogMovement ? input.Move.magnitude : 1f;
 
         // 현재 수평 속도 계산
-        float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+        float currentHorizontalSpeed = new Vector3(controller.velocity.x, 0.0f, controller.velocity.z).magnitude;
 
         float speedOffset = 0.1f;
 
@@ -290,41 +290,41 @@ public class ThirdPersonController : MonoBehaviour
         Vector3 targetDirection;
 
         // 마우스 클릭으로 목표 지점이 설정된 경우
-        if (_isMovingToTarget && _targetPosition.HasValue)
+        if (isMovingToTarget && targetPosition.HasValue)
         {
-            targetDirection = (_targetPosition.Value - transform.position).normalized; // 목표 지점까지의 방향
+            targetDirection = (targetPosition.Value - transform.position).normalized; // 목표 지점까지의 방향
             targetDirection.y = 0; // 수평 이동만 처리
 
             // 목표 지점까지의 거리
-            float distanceToTarget = Vector3.Distance(transform.position, _targetPosition.Value);
+            float distanceToTarget = Vector3.Distance(transform.position, targetPosition.Value);
 
             // 목표 지점에 거의 도달한 경우 멈춤
             if (distanceToTarget < 0.1f)
             {
-                _isMovingToTarget = false; // 이동 완료
+                isMovingToTarget = false; // 이동 완료
                 targetSpeed = 0.0f;
             }
             else
             {
                 // 목표 지점을 향해 회전
-                _targetRotation = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
+                targetRotation = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity, RotationSmoothTime);
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
         }
         else // WASD 또는 방향키 이동 처리
         {
             // 입력이 없으면 목표 속도를 0으로 설정
-            if (_input.Move == Vector2.zero) targetSpeed = 0.0f;
+            if (input.Move == Vector2.zero) targetSpeed = 0.0f;
 
             // 입력 방향을 정규화
-            Vector3 inputDirection = new Vector3(_input.Move.x, 0.0f, _input.Move.y).normalized;
+            Vector3 inputDirection = new Vector3(input.Move.x, 0.0f, input.Move.y).normalized;
 
             // 카메라의 방향을 기반으로 이동 방향을 결정
-            if (_input.Move != Vector2.zero)
+            if (input.Move != Vector2.zero)
             {
-                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity,
                     RotationSmoothTime);
 
                 // 캐릭터를 카메라 방향에 맞춰 회전
@@ -332,7 +332,7 @@ public class ThirdPersonController : MonoBehaviour
             }
 
             // 카메라의 방향을 기반으로 캐릭터의 이동 방향 설정
-            targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+            targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
         }
 
         // 목표 속도로 가속 또는 감속
@@ -340,28 +340,28 @@ public class ThirdPersonController : MonoBehaviour
             currentHorizontalSpeed > targetSpeed + speedOffset)
         {
             // 선형적인 결과 대신 곡선을 만들어 더 유기적인 속도 변화 제공
-            _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
+            speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
                 Time.deltaTime * SpeedChangeRate);
 
             // 속도를 소수점 세 자리로 반올림
-            _speed = Mathf.Round(_speed * 1000f) / 1000f;
+            speed = Mathf.Round(speed * 1000f) / 1000f;
         }
         else
         {
-            _speed = targetSpeed;
+            speed = targetSpeed;
         }
 
         // 플레이어 이동
-        _controller.Move(targetDirection * (targetSpeed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+        controller.Move(targetDirection * (targetSpeed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
 
-        _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-        if (_animationBlend < 0.01f) _animationBlend = 0f;
+        animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+        if (animationBlend < 0.01f) animationBlend = 0f;
 
         // 캐릭터가 애니메이터를 사용하는 경우 애니메이터 업데이트
-        if (_hasAnimator)
+        if (hasAnimator)
         {
-            _animator.SetFloat(_animIDSpeed, _animationBlend);
-            _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+            animator.SetFloat(animIDSpeed, animationBlend);
+            animator.SetFloat(animIDMotionSpeed, inputMagnitude);
         }
     }
 
@@ -371,67 +371,67 @@ public class ThirdPersonController : MonoBehaviour
         if (Grounded)
         {
             // 낙하 타임아웃 타이머 초기화
-            _fallTimeoutDelta = FallTimeout;
+            fallTimeoutDelta = FallTimeout;
 
             // 캐릭터가 애니메이터를 사용하는 경우 애니메이터 업데이트
-            if (_hasAnimator)
+            if (hasAnimator)
             {
-                _animator.SetBool(_animIDJump, false);
-                _animator.SetBool(_animIDFreeFall, false);
+                animator.SetBool(animIDJump, false);
+                animator.SetBool(animIDFreeFall, false);
             }
 
             // 지면에 있을 때 속도를 무한정 낮추지 않도록 설정
-            if (_verticalVelocity < 0.0f)
+            if (verticalVelocity < 0.0f)
             {
-                _verticalVelocity = -2f;
+                verticalVelocity = -2f;
             }
 
             // 점프
-            if (_input.Jump && _jumpTimeoutDelta <= 0.0f)
+            if (input.Jump && jumpTimeoutDelta <= 0.0f)
             {
                 // H * -2 * G의 제곱근은 원하는 높이에 도달하기 위해 필요한 속도를 계산
-                _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
                 // 캐릭터가 애니메이터를 사용하는 경우 애니메이터 업데이트
-                if (_hasAnimator)
+                if (hasAnimator)
                 {
-                    _animator.SetBool(_animIDJump, true);
+                    animator.SetBool(animIDJump, true);
                 }
             }
 
             // 점프 타임아웃
-            if (_jumpTimeoutDelta >= 0.0f)
+            if (jumpTimeoutDelta >= 0.0f)
             {
-                _jumpTimeoutDelta -= Time.deltaTime;
+                jumpTimeoutDelta -= Time.deltaTime;
             }
         }
         else
         {
             // 점프 타임아웃 타이머 초기화
-            _jumpTimeoutDelta = JumpTimeout;
+            jumpTimeoutDelta = JumpTimeout;
 
             // 낙하 타임아웃
-            if (_fallTimeoutDelta >= 0.0f)
+            if (fallTimeoutDelta >= 0.0f)
             {
-                _fallTimeoutDelta -= Time.deltaTime;
+                fallTimeoutDelta -= Time.deltaTime;
             }
             else
             {
                 // 캐릭터가 애니메이터를 사용하는 경우 애니메이터 업데이트
-                if (_hasAnimator)
+                if (hasAnimator)
                 {
-                    _animator.SetBool(_animIDFreeFall, true);
+                    animator.SetBool(animIDFreeFall, true);
                 }
             }
 
             // 지면에 있지 않으면 점프할 수 없음
-            _input.Jump = false;
+            input.Jump = false;
         }
 
         // 터미널 속도 이하일 경우 시간이 지남에 따라 중력 적용 (중력을 선형적으로 증가)
-        if (_verticalVelocity < _terminalVelocity)
+        if (verticalVelocity < terminalVelocity)
         {
-            _verticalVelocity += Gravity * Time.deltaTime;
+            verticalVelocity += Gravity * Time.deltaTime;
         }
     }
 
@@ -463,7 +463,7 @@ public class ThirdPersonController : MonoBehaviour
             if (FootstepAudioClips.Length > 0)
             {
                 var index = Random.Range(0, FootstepAudioClips.Length);
-                AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+                AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(controller.center), FootstepAudioVolume);
             }
         }
     }
@@ -472,7 +472,7 @@ public class ThirdPersonController : MonoBehaviour
     {
         if (animationEvent.animatorClipInfo.weight > 0.5f)
         {
-            AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+            AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(controller.center), FootstepAudioVolume);
         }
     }
 }

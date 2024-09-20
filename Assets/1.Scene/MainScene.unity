@@ -176,6 +176,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill: {fileID: 0}
+  animator: {fileID: 3374289089782891698}
+  fXController: {fileID: 1678438707}
+  character: {fileID: 4972507151451683657}
   skillImage: {fileID: 386488840}
 --- !u!1 &22165493
 GameObject:
@@ -3646,6 +3649,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill: {fileID: 0}
+  animator: {fileID: 3374289089782891698}
+  fXController: {fileID: 1678438707}
+  character: {fileID: 4972507151451683657}
   skillImage: {fileID: 1677179499}
 --- !u!1001 &330290031
 PrefabInstance:
@@ -3885,6 +3891,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill: {fileID: 0}
+  animator: {fileID: 3374289089782891698}
+  fXController: {fileID: 1678438707}
+  character: {fileID: 4972507151451683657}
   skillImage: {fileID: 1429520286}
 --- !u!1 &354387543
 GameObject:
@@ -8840,6 +8849,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill: {fileID: 0}
+  animator: {fileID: 3374289089782891698}
+  fXController: {fileID: 1678438707}
+  character: {fileID: 4972507151451683657}
   skillImage: {fileID: 1497311824}
 --- !u!1 &704058150
 GameObject:
@@ -10980,6 +10992,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill: {fileID: 0}
+  animator: {fileID: 3374289089782891698}
+  fXController: {fileID: 1678438707}
+  character: {fileID: 4972507151451683657}
   skillImage: {fileID: 584871196}
 --- !u!1 &837898304
 GameObject:
@@ -23418,11 +23433,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mStartTime: 0.45
   mLifeTime: 1
-  _Attack1: {fileID: 0}
-  _Attack2: {fileID: 0}
-  _Slash1: {fileID: 1038343543950735081}
-  _Slash2: {fileID: 4057903473806583646}
-  _Slash3: {fileID: 0}
+  attack1: {fileID: 0}
+  attack2: {fileID: 0}
+  slash1: {fileID: 1038343543950735081}
+  slash2: {fileID: 4057903473806583646}
+  slash3: {fileID: 0}
 --- !u!4 &1678438708
 Transform:
   m_ObjectHideFlags: 0
@@ -24976,6 +24991,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skill: {fileID: 0}
+  animator: {fileID: 3374289089782891698}
+  fXController: {fileID: 1678438707}
+  character: {fileID: 4972507151451683657}
   skillImage: {fileID: 1514079456}
 --- !u!1 &1836861764
 GameObject:
@@ -99493,7 +99511,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2806a94b50f3dbc4ea1aea2dc084ddff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fXController: {fileID: 1678438707}
+  SkillSlot1: {fileID: 1829095206}
+  SkillSlot2: {fileID: 702983825}
+  SkillSlot3: {fileID: 319913289}
+  SkillSlot4: {fileID: 829632666}
+  SkillSlot5: {fileID: 346135838}
+  SkillSlot6: {fileID: 15626168}
 --- !u!320 &7497818347844589299
 PlayableDirector:
   m_ObjectHideFlags: 0
