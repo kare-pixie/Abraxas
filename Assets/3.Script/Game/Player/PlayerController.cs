@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 #if ENABLE_INPUT_SYSTEM
     [RequireComponent(typeof(PlayerInput))]
 #endif
-public class ThirdPersonController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Player")]
     [Tooltip("캐릭터의 이동 속도 (m/s)")]
@@ -115,6 +115,11 @@ public class ThirdPersonController : MonoBehaviour
     private Vector3? targetPosition = null; // 마우스 클릭으로 설정된 목표 위치
     private bool isMovingToTarget = false;  // 마우스로 설정된 위치로 이동 중인지 여부
 
+    protected static PlayerController s_Instance;
+    public static PlayerController instance { get { return s_Instance; } }
+    public bool respawning { get { return m_Respawning; } }
+    protected bool m_Respawning; // 현재 부활하고 있는지 여부
+
     private bool IsCurrentDeviceMouse
     {
         get
@@ -135,6 +140,7 @@ public class ThirdPersonController : MonoBehaviour
         {
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
+        s_Instance = this;
     }
 
     private void Start()

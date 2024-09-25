@@ -17,7 +17,13 @@ public class VFXController : MonoBehaviour
     [SerializeField] private GameObject slash2;
     [SerializeField] private GameObject slash3;
 
-    public void Play(string ani, Transform targetTransform = null)
+    [SerializeField] private Weapon weapon;
+
+    private void Awake()
+    {
+        weapon = FindObjectOfType<Weapon>();
+    }
+    public void Play(string anim, Transform targetTransform = null)
     {
         if (targetTransform != null)
         {
@@ -28,18 +34,19 @@ public class VFXController : MonoBehaviour
         if (mCoEnable != null)
             StopCoroutine(mCoDisable);
 
-        mCoEnable = StartCoroutine(CoEnable(ani));
+        mCoEnable = StartCoroutine(CoEnable(anim));
 
         if (mCoDisable != null)
             StopCoroutine(mCoDisable);
 
-        mCoDisable = StartCoroutine(CoDisable(ani));
+        mCoDisable = StartCoroutine(CoDisable(anim));
     }
 
-    private IEnumerator CoDisable(string ani)
+    private IEnumerator CoDisable(string anim)
     {
         yield return new WaitForSeconds(mLifeTime);
-        switch (ani)
+        weapon.SkillNoUse();
+        switch (anim)
         {
             //case "Attack1":
             //    attack1.SetActive(false); break;
@@ -53,10 +60,11 @@ public class VFXController : MonoBehaviour
             //    slash3.SetActive(false); break;
         }
     }
-    private IEnumerator CoEnable(string ani)
+    private IEnumerator CoEnable(string anim)
     {
+        weapon.SkillUse(anim);
         yield return new WaitForSeconds(mStartTime);
-        switch (ani)
+        switch (anim)
         {
             //case "Attack1":
             //    attack1.SetActive(true); break;
@@ -66,8 +74,8 @@ public class VFXController : MonoBehaviour
                 slash1.SetActive(true); break;
             case "Slash2":
                 slash2.SetActive(true); break;
-            //case "Slash3":
-            //    slash3.SetActive(true); break;
+                //case "Slash3":
+                //    slash3.SetActive(true); break;
         }
     }
 }

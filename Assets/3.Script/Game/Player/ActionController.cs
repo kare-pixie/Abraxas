@@ -41,9 +41,8 @@ public class ActionController : MonoBehaviour
         {
             if(hitInfo.transform != null)
             {
-                Debug.Log(hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " »πµÊ«ﬂΩ¿¥œ¥Ÿ.");
                 inventory.AcquireItem(hitInfo.transform.GetComponent<ItemPickUp>().item);
-                //todo: æ∆¿Ã≈€ »πµÊ ∑Œ±◊ ≥≤±‚±‚
+                UIManager.instance.ItemLog(hitInfo.transform.GetComponent<ItemPickUp>().item.itemName);
                 Destroy(hitInfo.transform.gameObject);
                 ItemInfoDisappear();
             }

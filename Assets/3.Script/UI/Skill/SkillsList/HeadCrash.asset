@@ -17,4 +17,4 @@ MonoBehaviour:
   skillExplain: "\uCE7C\uC744 \uC704\uB85C \uB4E4\uC5B4 \uC801\uC758 \uBA38\uB9AC\uB97C
     \uAC00\uACA9\uD558\uB294 \uACF5\uACA9"
   skillLevel: 0
-  ani: Attack1
+  anim: Attack1

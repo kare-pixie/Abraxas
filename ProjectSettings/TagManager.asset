@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Item
+  - Weapon
   layers:
   - Default
   - TransparentFX

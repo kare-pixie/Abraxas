@@ -59,7 +59,7 @@ public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         {
             return;
         }
-        //todo: 포션 사용
+        UIManager.instance.UseLog(item.itemName);
         inventory.UseItem(item);
         itemCount = inventory.getItemCount(item);
 

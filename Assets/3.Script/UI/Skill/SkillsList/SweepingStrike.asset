@@ -17,4 +17,4 @@ MonoBehaviour:
   skillExplain: "\uAC15\uB825\uD558\uAC8C \uD718\uB458\uB7EC \uC801\uC744 \uBCA0\uB294
     \uACF5\uACA9"
   skillLevel: 1
-  ani: Slash1
+  anim: Slash1
