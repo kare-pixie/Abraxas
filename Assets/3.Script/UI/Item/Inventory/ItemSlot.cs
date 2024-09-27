@@ -142,7 +142,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, 
     }
     public void UseItem(int amount = 1)
     {
-        Debug.Log(item.itemName + "을 사용했습니다.");
+        UIManager.instance.UseLog(item.itemName);
         SetSlotCount(-amount);
         Craft.instance.FreshCount();
         inventory.potionSlot1.FreshCount();
