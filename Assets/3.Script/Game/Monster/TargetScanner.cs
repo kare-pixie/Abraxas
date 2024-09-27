@@ -42,6 +42,10 @@ public class TargetScanner : MonoBehaviour
 
     void ChasePlayer()
     {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (stateInfo.IsTag("Die")) return;
+
         isChasing = true;
         agent.isStopped = false;       // NavMeshAgent가 이동할 수 있도록 설정
         agent.SetDestination(player.position); // 플레이어의 위치로 이동
