@@ -11,13 +11,20 @@ public class EnemyController : MonoBehaviour
     private Rigidbody rigid;
     private BoxCollider boxCollider;
     private Material mat;
+    private Animator animator;
+
+    private int animIDDie;
 
     private void Awake()
     {
+        TryGetComponent(out animator);
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
-        mat = GetComponent<MeshRenderer>().material;
+        Debug.Log(transform.GetChild(0));
+        mat = transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material;
         isinvincible = false;
+
+        animIDDie = Animator.StringToHash("Die");
     }
 
     private IEnumerator OnDamage()
@@ -31,6 +38,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
+            animator.SetTrigger(animIDDie);
             mat.color = Color.gray;
             Destroy(gameObject, 4);
         }

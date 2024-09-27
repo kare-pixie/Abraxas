@@ -1,63 +1,82 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-[System.Serializable]
-public class TargetScanner
+public class TargetScanner : MonoBehaviour
 {
-    public float heightOffset = 0.0f;
-    public float detectionRadius = 10;
-    [Range(0.0f, 360.0f)]
-    public float detectionAngle = 270;
-    public float maxHeightDifference = 1.0f;
-    public LayerMask viewBlockerLayerMask;
-    /// <summary>
-    /// 이 스캐너의 파라미터에 따라 플레이어가 보이는지 확인합니다.
-    /// </summary>
-    /// <param name="detector">탐지가 시작되는 트랜스폼 (적 캐릭터의 위치)</param>
-    /// <param name="useHeightDifference">높이 차이를 maxHeightDifference 값과 비교할지, 무시할지 여부</param>
-    /// <returns>플레이어가 보이면 PlayerController, 보이지 않으면 null 반환</returns>
-    public PlayerController Detect(Transform detector, bool useHeightDifference = true)
+
+    public Transform player;           // 플레이어의 위치를 받아올 변수
+    public float detectionRange = 10f; // 몬스터가 플레이어를 인식할 범위
+    public float moveSpeed = 3.5f;     // 몬스터 이동 속도
+
+    private NavMeshAgent agent;        // 몬스터의 NavMeshAgent
+    private bool isChasing = false;    // 몬스터가 플레이어를 추적 중인지 확인하는 변수
+
+    private Animator animator;
+
+    void Start()
     {
-        //플레이어가 스폰되지 않았거나 스폰 중이면, 타겟으로 설정하지 않음
-        if (PlayerController.instance == null || PlayerController.instance.respawning)
-            return null;
-
-        Vector3 eyePos = detector.position + Vector3.up * heightOffset;
-        Vector3 toPlayer = PlayerController.instance.transform.position - eyePos;
-        Vector3 toPlayerTop = PlayerController.instance.transform.position + Vector3.up * 1.5f - eyePos;
-
-        if (useHeightDifference && Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference)
-        { //타겟이 너무 높거나 낮으면 추적을 시도하지 않음
-            return null;
-        }
-
-        Vector3 toPlayerFlat = toPlayer;
-        toPlayerFlat.y = 0;
-
-        if (toPlayerFlat.sqrMagnitude <= detectionRadius * detectionRadius)
-        {
-            if (Vector3.Dot(toPlayerFlat.normalized, detector.forward) >
-                Mathf.Cos(detectionAngle * 0.5f * Mathf.Deg2Rad))
-            {
-
-                bool canSee = false;
-
-                Debug.DrawRay(eyePos, toPlayer, Color.blue);
-                Debug.DrawRay(eyePos, toPlayerTop, Color.blue);
-
-                canSee |= !Physics.Raycast(eyePos, toPlayer.normalized, detectionRadius,
-                    viewBlockerLayerMask, QueryTriggerInteraction.Ignore);
-
-                canSee |= !Physics.Raycast(eyePos, toPlayerTop.normalized, toPlayerTop.magnitude,
-                    viewBlockerLayerMask, QueryTriggerInteraction.Ignore);
-
-                if (canSee)
-                    return PlayerController.instance;
-            }
-        }
-
-        return null;
+        TryGetComponent(out animator);
+        agent = GetComponent<NavMeshAgent>();
+        agent.speed = moveSpeed;      // 몬스터의 이동 속도 설정
     }
+
+    void Update()
+    {
+        float distance = Vector3.Distance(player.position, transform.position);
+
+        if (distance <= detectionRange)
+        {
+            // 플레이어가 감지 범위 내에 있을 때
+            ChasePlayer();
+        }
+        else
+        {
+            // 플레이어가 감지 범위 밖에 있을 때
+            StopChasingPlayer();
+        }
+    }
+    private void LateUpdate()
+    {
+        animator.SetFloat("Speed", agent.velocity.magnitude);
+    }
+
+    void ChasePlayer()
+    {
+        isChasing = true;
+        agent.isStopped = false;       // NavMeshAgent가 이동할 수 있도록 설정
+        agent.SetDestination(player.position); // 플레이어의 위치로 이동
+    }
+
+    void StopChasingPlayer()
+    {
+        if (isChasing)
+        {
+            isChasing = false;
+            agent.isStopped = true;    // 추적 중지
+        }
+    }
+
+    // 플레이어와의 충돌 확인 (선택 사항)
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // 플레이어와 충돌 시의 로직 작성 (예: 공격, 게임 종료 등)
+            Debug.Log("플레이어와 충돌!");
+        }
+    }
+
+
+#if UNITY_EDITOR
+    void OnDrawGizmosSelected()
+    {
+        // Gizmos의 색상 설정 (예: 빨간색)
+        Gizmos.color = Color.red;
+
+        // 몬스터의 감지 범위를 구체로 그리기
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
+    }
+
+#endif
 
 }
