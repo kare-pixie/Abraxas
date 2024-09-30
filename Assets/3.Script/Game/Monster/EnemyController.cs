@@ -8,26 +8,28 @@ public class EnemyController : MonoBehaviour
     public int curHealth;
     public bool isinvincible;
 
-    private Rigidbody rigid;
-    private BoxCollider boxCollider;
     private Material mat;
     private Animator animator;
+    private Inventory inventory;
 
     private int animIDDie;
 
     public int damage;
     public bool isSkillUse { get; private set; }
+    public string name;
+
+    [SerializeField] private DropItem dropItem;
 
     private void Awake()
     {
         TryGetComponent(out animator);
-        rigid = GetComponent<Rigidbody>();
-        boxCollider = GetComponent<BoxCollider>();
         mat = transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material;
         isinvincible = false;
 
         isSkillUse = false;
         animIDDie = Animator.StringToHash("Die");
+
+        inventory = FindObjectOfType<Inventory>();
     }
 
     private IEnumerator OnDamage()
@@ -64,7 +66,12 @@ public class EnemyController : MonoBehaviour
         if (curHealth - damage <= 0)
         {
             curHealth = 0;
-            //todo: »ç¸Á·Î±×
+            UIManager.instance.EnemyLog(name);
+            //todo: ¾ÆÀÌÅÛ, °æÇèÄ¡ È¹µæ
+            int itemIdx = Random.Range(0, dropItem.items.Count);
+            int itemCnt = Random.Range(1, 4);
+            inventory.AcquireItem(dropItem.items[itemIdx], itemCnt);
+            UIManager.instance.ItemLog(dropItem.items[itemIdx].itemName, itemCnt);
         }
         else
         {

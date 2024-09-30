@@ -404,6 +404,8 @@ MonoBehaviour:
   curHealth: 100
   isinvincible: 0
   damage: 0
+  name: 
+  dropItem: {fileID: 0}
 --- !u!1 &33507816
 GameObject:
   m_ObjectHideFlags: 0
@@ -23556,14 +23558,14 @@ MonoBehaviour:
   logGroup: {fileID: 421107827}
   sliderHP: {fileID: 137770761}
   textHp: {fileID: 1463170218}
-  sliderMP: {fileID: 1779503519}
-  textMp: {fileID: 425322521}
-  sliderEXP: {fileID: 1355273730}
-  textExp: {fileID: 2050782069}
   sliderStatusHP: {fileID: 2094350822}
   textStatusHp: {fileID: 137354467}
+  sliderMP: {fileID: 1779503519}
+  textMp: {fileID: 425322521}
   sliderStatusMP: {fileID: 1404559276}
   textStatusMp: {fileID: 927018067}
+  sliderEXP: {fileID: 1355273730}
+  textExp: {fileID: 2050782069}
   sliderStatusEXP: {fileID: 1489966440}
   textStatusExp: {fileID: 1947938286}
 --- !u!1001 &1672680693
@@ -100176,7 +100178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb4ac3456427db449a6f95615d5760f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isinvincible: 0
   status: {fileID: 11400000, guid: 1a2ef0bad1f521745996829fda347d79, type: 2}
 --- !u!1 &7501858896940340028
 GameObject:

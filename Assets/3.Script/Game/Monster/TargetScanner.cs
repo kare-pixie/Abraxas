@@ -74,17 +74,6 @@ public class TargetScanner : MonoBehaviour
             {
                 animator.SetTrigger("Punch");
                 sec = 0.4f;
-                //switch (Random.Range(0, 2))
-                //{
-                //    case 0:
-                //        animator.SetTrigger("Punch");
-                //        sec = 0.4f;
-                //        break;
-                //    case 1:
-                //        animator.SetTrigger("Swiping");
-                //        sec = 1.5f;
-                //        break;
-                //}
             }
 
             // 데미지 적용 (예: 플레이어 스크립트에 데미지를 입히는 메서드 호출)
@@ -93,9 +82,6 @@ public class TargetScanner : MonoBehaviour
             {
                 status.TakeDamage(damage, sec);
             }
-
-            // 로그 출력 (디버깅 용도)
-            Debug.Log("몬스터가 플레이어를 공격했습니다!");
 
             // 랜덤 간격 대기
             float attackInterval = Random.Range(minAttackInterval, maxAttackInterval);
@@ -133,10 +119,10 @@ public class TargetScanner : MonoBehaviour
 #if UNITY_EDITOR
     void OnDrawGizmosSelected()
     {
-        // Gizmos의 색상 설정 (예: 빨간색)
+        // Gizmos의 색상 설정
         Gizmos.color = Color.red;
 
-        // 몬스터의 감지 범위를 구체로 그리기
+        // 몬스터의 감지 범위
         Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 

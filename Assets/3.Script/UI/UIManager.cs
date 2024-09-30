@@ -53,6 +53,10 @@ public class UIManager : MonoBehaviour
     {
         AddLog($"{_item}을 {_itemCount}개 획득했습니다.");
     }
+    public void EnemyLog(string _name)
+    {
+        AddLog($"{_name}을 쓰러트렸습니다.");
+    }
     public void UseLog(string _item)
     {
         switch(_item)

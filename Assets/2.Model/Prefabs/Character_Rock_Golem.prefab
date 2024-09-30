@@ -752,6 +752,10 @@ MonoBehaviour:
   player: {fileID: 0}
   detectionRange: 5
   moveSpeed: 3.5
+  attackRange: 1
+  minAttackInterval: 1.5
+  maxAttackInterval: 3
+  damage: 10
 --- !u!114 &6970777578176399911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -767,6 +771,9 @@ MonoBehaviour:
   maxHealth: 50
   curHealth: 50
   isinvincible: 0
+  damage: 0
+  name: "\uACE8\uB818"
+  dropItem: {fileID: 11400000, guid: d0f4e11e074c1a34a94dad945c920d3b, type: 2}
 --- !u!1 &141474
 GameObject:
   m_ObjectHideFlags: 0
