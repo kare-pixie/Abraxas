@@ -67,11 +67,11 @@ public class EnemyController : MonoBehaviour
         {
             curHealth = 0;
             UIManager.instance.EnemyLog(name);
-            //todo: æ∆¿Ã≈€, ∞Ê«Ëƒ° »πµÊ
             int itemIdx = Random.Range(0, dropItem.items.Count);
             int itemCnt = Random.Range(1, 4);
             inventory.AcquireItem(dropItem.items[itemIdx], itemCnt);
             UIManager.instance.ItemLog(dropItem.items[itemIdx].itemName, itemCnt);
+            //todo: ∞Ê«Ëƒ° »πµÊ
         }
         else
         {

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434009fca7708244ab432851745159fe, type: 3}
   m_Name: Herb_H
   m_EditorClassIdentifier: 
-  itemName: Bloody Herb
+  itemName: "\uBE14\uB7EC\uB514 \uD5C8\uBE0C"
   itemType: 0
   itemImage: {fileID: 21300000, guid: a1b58d1f073175040bb074285a41677d, type: 3}
   itemPrefab: {fileID: 178232, guid: f633a6ba299f53549b3438bac5793fe2, type: 3}
