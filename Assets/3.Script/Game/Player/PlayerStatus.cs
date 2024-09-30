@@ -10,8 +10,6 @@ public class PlayerStatus : MonoBehaviour
     private float curMp;
     private float exp;
 
-    public bool isinvincible;
-
     private Material mat;
     private Animator animator;
     private int animIDDie;
@@ -76,7 +74,6 @@ public class PlayerStatus : MonoBehaviour
     {
         TryGetComponent(out animator);
         mat = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material;
-        isinvincible = false;
 
         animIDDie = Animator.StringToHash("Death1");
     }
@@ -87,13 +84,9 @@ public class PlayerStatus : MonoBehaviour
         SetExp(status.exp);
     }
 
-    private IEnumerator OnInvincible()
+    private IEnumerator OnDamage(float sec)
     {
-        yield return new WaitForSeconds(0.5f);
-        isinvincible = false;
-    }
-    private IEnumerator OnDamage()
-    {
+        yield return new WaitForSeconds(sec);
         mat.color = Color.red;
         yield return new WaitForSeconds(0.1f);
 
@@ -105,16 +98,12 @@ public class PlayerStatus : MonoBehaviour
         {
             animator.SetTrigger(animIDDie);
             mat.color = Color.gray;
-            //Destroy(gameObject, 4);
         }
     }
-    private void Damage(int damage)
+    public void TakeDamage(int damage, float sec)
     {
-        if (isinvincible || curHp <= 0 || damage <= 0) // 公利
+        if (curHp <= 0 || damage <= 0) // 公利
             return;
-
-        isinvincible = true;
-        StartCoroutine(OnInvincible());
 
         if (curHp - damage <= 0)
         {
@@ -127,18 +116,6 @@ public class PlayerStatus : MonoBehaviour
             curHp -= damage;
             UIManager.instance.SetHP(maxHp, curHp);
         }
-        StartCoroutine(OnDamage());
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag.Equals("Enemy"))
-        {
-            EnemyController enemy = other.GetComponent<EnemyController>();
-            Damage(10);
-            if (enemy.isSkillUse)
-            {
-                Damage(other.GetComponent<EnemyController>().damage);
-            }
-        }
+        StartCoroutine(OnDamage(sec));
     }
 }
