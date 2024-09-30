@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 #if ENABLE_INPUT_SYSTEM
@@ -99,9 +100,10 @@ public class PlayerController : MonoBehaviour
     private int animIDMotionSpeed;
 
 #if ENABLE_INPUT_SYSTEM
-        private PlayerInput playerInput;
+    private PlayerInput playerInput;
 #endif
     private Animator animator;
+
     private CharacterController controller;
     private PlayerInputs input;
     private GameObject mainCamera;

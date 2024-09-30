@@ -1,0 +1,144 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerStatus : MonoBehaviour
+{
+    private float maxHp;
+    private float curHp;
+    private float maxMp;
+    private float curMp;
+    private float exp;
+
+    public bool isinvincible;
+
+    private Material mat;
+    private Animator animator;
+    private int animIDDie;
+
+    [SerializeField] private Status status;
+
+    public void SetHp(float max, float cur)
+    {
+        maxHp = max;
+        curHp = cur;
+        UIManager.instance.SetHP(maxHp, curHp);
+    }
+    public void AddMaxHp(float hp)
+    {
+        maxHp += hp;
+        curHp += hp;
+        UIManager.instance.SetHP(maxHp, curHp);
+    }
+    public void AddCurHP(float hp)
+    {
+        if(curHp + hp > maxHp)
+        {
+            curHp = maxHp;
+        }
+        else
+        {
+            curHp += hp;
+        }
+        UIManager.instance.SetHP(maxHp, curHp);
+    }
+    public void SetMp(float max, float cur)
+    {
+        maxMp = max;
+        curMp = cur;
+        UIManager.instance.SetMP(maxMp, curMp);
+    }
+    public void AddMaxMp(float mp)
+    {
+        maxMp += mp;
+        curMp += mp;
+        UIManager.instance.SetMP(maxMp, curMp);
+    }
+    public void AddCurMP(float mp)
+    {
+        if (curMp + mp > maxMp)
+        {
+            curMp = maxMp;
+        }
+        else
+        {
+            curMp += mp;
+        }
+        UIManager.instance.SetMP(maxHp, curHp);
+    }
+    public void SetExp(float exp)
+    {
+        this.exp = exp;
+        UIManager.instance.SetEXP(exp);
+    }
+
+    private void Awake()
+    {
+        TryGetComponent(out animator);
+        mat = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material;
+        isinvincible = false;
+
+        animIDDie = Animator.StringToHash("Death1");
+    }
+    private void Start()
+    {
+        SetHp(status.maxHp, status.curHp);
+        SetMp(status.maxMp, status.curMp);
+        SetExp(status.exp);
+    }
+
+    private IEnumerator OnInvincible()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isinvincible = false;
+    }
+    private IEnumerator OnDamage()
+    {
+        mat.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+
+        if (curHp > 0)
+        {
+            mat.color = Color.white;
+        }
+        else
+        {
+            animator.SetTrigger(animIDDie);
+            mat.color = Color.gray;
+            //Destroy(gameObject, 4);
+        }
+    }
+    private void Damage(int damage)
+    {
+        if (isinvincible || curHp <= 0 || damage <= 0) // 무적
+            return;
+
+        isinvincible = true;
+        StartCoroutine(OnInvincible());
+
+        if (curHp - damage <= 0)
+        {
+            curHp = 0;
+            UIManager.instance.SetHP(maxHp, curHp);
+            //todo: 게임오버
+        }
+        else
+        {
+            curHp -= damage;
+            UIManager.instance.SetHP(maxHp, curHp);
+        }
+        StartCoroutine(OnDamage());
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("Enemy"))
+        {
+            EnemyController enemy = other.GetComponent<EnemyController>();
+            Damage(10);
+            if (enemy.isSkillUse)
+            {
+                Damage(other.GetComponent<EnemyController>().damage);
+            }
+        }
+    }
+}

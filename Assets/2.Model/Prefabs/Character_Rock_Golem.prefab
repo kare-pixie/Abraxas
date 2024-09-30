@@ -620,7 +620,8 @@ GameObject:
   - component: {fileID: 2012867326347175967}
   - component: {fileID: 6865065967420230701}
   - component: {fileID: 1694546679877861091}
-  - component: {fileID: 8293264891254338723}
+  - component: {fileID: 72171148051857313}
+  - component: {fileID: 6970777578176399911}
   m_Layer: 0
   m_Name: Character_Rock_Golem
   m_TagString: Untagged
@@ -708,7 +709,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -736,7 +737,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8293264891254338723
+--- !u!114 &72171148051857313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -745,10 +746,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 140808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 714916bf362a5f44f88592aa27a087ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 8add8f411c6bac94b9a15ee04f4b4bf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets: []
+  player: {fileID: 0}
+  detectionRange: 5
+  moveSpeed: 3.5
+--- !u!114 &6970777578176399911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb3e5b93fcbb97a43a598973bedddefd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 50
+  curHealth: 50
+  isinvincible: 0
 --- !u!1 &141474
 GameObject:
   m_ObjectHideFlags: 0

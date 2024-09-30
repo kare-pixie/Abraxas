@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dca29db9ce87e442ab3e713166340cb, type: 3}
   m_Name: Status
   m_EditorClassIdentifier: 
-  hp: 50
-  mp: 50
+  maxHp: 100
+  curHp: 90
+  maxMp: 100
+  curMp: 90
   damage: 1
-  def: 0
-  exp: 0
+  def: 1
+  exp: 10

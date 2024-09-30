@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class Status : ScriptableObject
 {
-    public float hp;
-    public float mp;
+    public float maxHp;
+    public float curHp;
+    public float maxMp;
+    public float curMp;
     public float damage;
     public float def;
     public int exp;

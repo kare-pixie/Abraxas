@@ -15,15 +15,18 @@ public class EnemyController : MonoBehaviour
 
     private int animIDDie;
 
+    public int damage;
+    public bool isSkillUse { get; private set; }
+
     private void Awake()
     {
         TryGetComponent(out animator);
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
-        Debug.Log(transform.GetChild(0));
         mat = transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().material;
         isinvincible = false;
 
+        isSkillUse = false;
         animIDDie = Animator.StringToHash("Die");
     }
 
@@ -81,5 +84,23 @@ public class EnemyController : MonoBehaviour
                 Damage(other.GetComponent<Weapon>().damage);
             }
         }
+    }
+
+    public void SkillUse(string skillName)
+    {
+        isSkillUse = true;
+        switch (skillName)
+        {
+            case "Punch":
+                damage = 10; break;
+            case "Swip":
+                damage = 15; break;
+        }
+    }
+
+    public void SkillNoUse()
+    {
+        isSkillUse = false;
+        damage = 0;
     }
 }
