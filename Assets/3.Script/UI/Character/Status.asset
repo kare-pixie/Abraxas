@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Status
   m_EditorClassIdentifier: 
   maxHp: 100
-  curHp: 90
+  curHp: 100
   maxMp: 100
-  curMp: 90
+  curMp: 100
   damage: 1
   def: 1
-  exp: 10
+  exp: 0

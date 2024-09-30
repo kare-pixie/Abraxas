@@ -55,7 +55,7 @@ public class TargetScanner : MonoBehaviour
     private IEnumerator AttackRoutine()
     {
         isAttacking = true;
-        float sec = 1f;
+        float sec = 0.4f;
 
         while (Vector3.Distance(player.transform.position, transform.position) <= attackRange)
         {
@@ -72,17 +72,19 @@ public class TargetScanner : MonoBehaviour
 
             if (animator != null)
             {
-                switch(Random.Range(0, 2))
-                {
-                    case 0:
-                        animator.SetTrigger("Punch");
-                        sec = 0.4f;
-                        break;
-                    case 1:
-                        animator.SetTrigger("Swiping");
-                        sec = 1.5f;
-                        break;
-                }
+                animator.SetTrigger("Punch");
+                sec = 0.4f;
+                //switch (Random.Range(0, 2))
+                //{
+                //    case 0:
+                //        animator.SetTrigger("Punch");
+                //        sec = 0.4f;
+                //        break;
+                //    case 1:
+                //        animator.SetTrigger("Swiping");
+                //        sec = 1.5f;
+                //        break;
+                //}
             }
 
             // 데미지 적용 (예: 플레이어 스크립트에 데미지를 입히는 메서드 호출)
