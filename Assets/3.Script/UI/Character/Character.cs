@@ -32,6 +32,8 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
+        if (UIManager.instance.isGameOver) return;
+
         if (Input.GetKeyDown(KeyCode.C))
         {
             TryOpenCharacter();

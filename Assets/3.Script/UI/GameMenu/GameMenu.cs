@@ -8,6 +8,8 @@ public class GameMenu : MonoBehaviour
     [SerializeField] private GameObject ganeMenu;
     private void Update()
     {
+        if (UIManager.instance.isGameOver) return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TryOpenGameMenu();

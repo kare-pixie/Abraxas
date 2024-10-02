@@ -14,8 +14,12 @@ public class GameStart : MonoBehaviour
     }
     public IEnumerator LoadSceneAsync(int sceneIndex)
     {
-        gameStartBtn.SetActive(false);
-        gameEntBtn.SetActive(false);
+        if(gameStartBtn != null)
+            gameStartBtn.SetActive(false);
+
+        if (gameEntBtn != null)
+            gameEntBtn.SetActive(false);
+
         progressBar.gameObject.SetActive(true);
 
         // 비동기 로드 시작

@@ -25,6 +25,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider sliderStatusEXP;
     [SerializeField] private TMP_Text textStatusExp;
     [SerializeField] private TMP_Text textLevel;
+
+    [SerializeField] private GameObject gameOver;
+    public bool isGameOver { get; private set; }
+
     private PlayerStatus PlayerStatus;
     private int level;
 
@@ -35,11 +39,18 @@ public class UIManager : MonoBehaviour
             instance = this;
             PlayerStatus = FindObjectOfType<PlayerStatus>();
             level = 0;
+            isGameOver = false;
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    public void GameOver()
+    {
+        isGameOver = true;
+        gameOver.SetActive(true);
     }
 
     private void AddLog(string str)

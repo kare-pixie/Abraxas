@@ -23,6 +23,8 @@ public class TargetScanner : MonoBehaviour
     private Animator animator;
     public LayerMask obstacleLayer;    // 장애물 레이어
 
+    private Coroutine attackCoroutine;
+
     void Start()
     {
         TryGetComponent(out animator);
@@ -33,6 +35,12 @@ public class TargetScanner : MonoBehaviour
 
     void Update()
     {
+        if (UIManager.instance.isGameOver)
+        {
+            StopChasingPlayer();
+            return;
+        }
+
         float distance = Vector3.Distance(player.transform.position, transform.position);
 
         // 플레이어가 시야각 내에 있고 시야에 들어왔을 때 추적을 시작
@@ -44,6 +52,7 @@ public class TargetScanner : MonoBehaviour
         // 추적 중일 때
         if (isChasing)
         {
+
             // 감지 범위 안에 있을 때 계속 추적
             if (distance <= detectionRange)
             {
@@ -52,7 +61,9 @@ public class TargetScanner : MonoBehaviour
                 // 공격 범위 내에 있으면 공격
                 if (distance <= attackRange && !isAttacking)
                 {
-                    StartCoroutine(AttackRoutine());
+                    if (attackCoroutine != null)
+                        StopCoroutine(attackCoroutine);
+                    attackCoroutine = StartCoroutine(AttackRoutine());
                 }
             }
             else
@@ -152,6 +163,9 @@ public class TargetScanner : MonoBehaviour
         {
             isChasing = false;
             agent.isStopped = true;    // 추적 중지
+
+            if (attackCoroutine != null)
+                StopCoroutine(attackCoroutine);
         }
     }
 

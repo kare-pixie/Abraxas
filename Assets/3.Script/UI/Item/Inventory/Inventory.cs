@@ -23,6 +23,8 @@ public class Inventory : MonoBehaviour
 
     private void Update()
     {
+        if (UIManager.instance.isGameOver) return;
+
         if (Input.GetKeyDown(KeyCode.I))
         {
             TryOpenInventory();

@@ -104,6 +104,10 @@ public class PlayerStatus : MonoBehaviour
             animator.SetTrigger(animIDDie);
             mat.color = Color.gray;
         }
+        if (curHp <= 0)
+        {
+            UIManager.instance.GameOver();
+        }
     }
     public void TakeDamage(int damage, float sec)
     {
@@ -114,7 +118,6 @@ public class PlayerStatus : MonoBehaviour
         {
             curHp = 0;
             UIManager.instance.SetHP(maxHp, curHp);
-            //todo: 게임오버
         }
         else
         {

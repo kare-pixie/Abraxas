@@ -28,7 +28,9 @@ public class ActionController : MonoBehaviour
 
     private void TryAction()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        if (UIManager.instance.isGameOver) return;
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
             CheckItem();
             CanPickUp();
