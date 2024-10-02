@@ -9,5 +9,5 @@ public class Status : ScriptableObject
     public float curMp;
     public float damage;
     public float def;
-    public int exp;
+    public float exp;
 }

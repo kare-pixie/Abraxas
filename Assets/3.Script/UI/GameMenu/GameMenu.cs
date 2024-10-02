@@ -18,19 +18,19 @@ public class GameMenu : MonoBehaviour
         ganeMenuActivated = !ganeMenuActivated;
 
         if (ganeMenuActivated)
-            OpenEquip();
+            OpenGameMenu();
         else
-            CloseEquip();
+            CloseGameMenu();
     }
 
-    private void OpenEquip()
+    private void OpenGameMenu()
     {
         ganeMenu.SetActive(true);
 
         // 이 오브젝트를 부모 계층에서 가장 마지막 자식으로 이동시켜 가장 위에 표시
         ganeMenu.transform.SetAsLastSibling();
     }
-    private void CloseEquip()
+    private void CloseGameMenu()
     {
         ganeMenu.SetActive(false);
     }

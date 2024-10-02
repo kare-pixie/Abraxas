@@ -750,12 +750,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  detectionRange: 5
+  detectionRange: 6.5
   moveSpeed: 3.5
-  attackRange: 1
+  fieldOfView: 45
+  attackRange: 2
   minAttackInterval: 1.5
   maxAttackInterval: 3
   damage: 10
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &6970777578176399911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,7 +776,7 @@ MonoBehaviour:
   curHealth: 30
   isinvincible: 0
   damage: 0
-  name: "\uACE8\uB818"
+  enemyName: 
   dropItem: {fileID: 11400000, guid: d0f4e11e074c1a34a94dad945c920d3b, type: 2}
 --- !u!1 &141474
 GameObject:

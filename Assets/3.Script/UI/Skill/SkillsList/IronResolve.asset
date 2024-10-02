@@ -17,4 +17,5 @@ MonoBehaviour:
   skillExplain: "\uAC15\uCCA0 \uAC19\uC740 \uC758\uC9C0\uB85C \uC804\uD22C\uB825\uC744
     \uB04C\uC5B4\uC62C\uB9AC\uB294 \uBC84\uD504"
   skillLevel: 0
+  mana: 8
   anim: Buff

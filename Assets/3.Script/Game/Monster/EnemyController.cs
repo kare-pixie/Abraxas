@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour
 
     public int damage;
     public bool isSkillUse { get; private set; }
-    public string name;
+    public string enemyName;
 
     [SerializeField] private DropItem dropItem;
 
@@ -70,7 +70,7 @@ public class EnemyController : MonoBehaviour
             int itemCnt = Random.Range(1, 4);
             inventory.AcquireItem(dropItem.items[itemIdx], itemCnt);
 
-            UIManager.instance.EnemyLog(name);
+            UIManager.instance.EnemyLog(enemyName);
             UIManager.instance.ExpLog(Random.Range(1, 5));
             UIManager.instance.ItemLog(dropItem.items[itemIdx].itemName, itemCnt);
         }
