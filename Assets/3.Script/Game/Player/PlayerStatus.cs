@@ -52,7 +52,7 @@ public class PlayerStatus : MonoBehaviour
         curMp += mp;
         UIManager.instance.SetMP(maxMp, curMp);
     }
-    public void AddCurMP(float mp)
+    public void AddCurMp(float mp)
     {
         if (curMp + mp > maxMp)
         {
@@ -62,12 +62,17 @@ public class PlayerStatus : MonoBehaviour
         {
             curMp += mp;
         }
-        UIManager.instance.SetMP(maxHp, curHp);
+        UIManager.instance.SetMP(maxMp, curMp);
     }
     public void SetExp(float exp)
     {
         this.exp = exp;
-        UIManager.instance.SetEXP(exp);
+        UIManager.instance.SetEXP(this.exp);
+    }
+    public void AddExp(float exp)
+    {
+        this.exp += exp;
+        UIManager.instance.SetEXP(this.exp);
     }
 
     private void Awake()

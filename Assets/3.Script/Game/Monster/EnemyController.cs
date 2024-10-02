@@ -66,12 +66,13 @@ public class EnemyController : MonoBehaviour
         if (curHealth - damage <= 0)
         {
             curHealth = 0;
-            UIManager.instance.EnemyLog(name);
             int itemIdx = Random.Range(0, dropItem.items.Count);
             int itemCnt = Random.Range(1, 4);
             inventory.AcquireItem(dropItem.items[itemIdx], itemCnt);
+
+            UIManager.instance.EnemyLog(name);
+            UIManager.instance.ExpLog(Random.Range(1, 5));
             UIManager.instance.ItemLog(dropItem.items[itemIdx].itemName, itemCnt);
-            //todo: °æÇèÄ¡ È¹µæ
         }
         else
         {

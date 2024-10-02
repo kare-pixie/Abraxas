@@ -24,7 +24,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text textExp;
     [SerializeField] private Slider sliderStatusEXP;
     [SerializeField] private TMP_Text textStatusExp;
+    [SerializeField] private TMP_Text textLevel;
     private PlayerStatus PlayerStatus;
+    private int level;
 
     private void Awake()
     {
@@ -32,6 +34,7 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
             PlayerStatus = FindObjectOfType<PlayerStatus>();
+            level = 0;
         }
         else
         {
@@ -39,36 +42,42 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void AddLog(string _str)
+    private void AddLog(string str)
     {
         TMP_Text log = Instantiate(logText);
-        log.text = _str;
+        log.text = str;
         log.transform.SetParent(logGroup);
     }
-    public void SkillLog(string _skillName)
+    public void SkillLog(string skillName, int skillMana)
     {
-        AddLog($"{_skillName}를 사용했습니다.");
+        AddLog($"{skillName}를 사용했습니다.");
+        PlayerStatus.AddCurMp(-skillMana);
     }
-    public void ItemLog(string _item, int _itemCount = 1)
+    public void ItemLog(string item, int itemCount = 1)
     {
-        AddLog($"{_item}을 {_itemCount}개 획득했습니다.");
+        AddLog($"{item}을 {itemCount}개 획득했습니다.");
     }
-    public void EnemyLog(string _name)
+    public void ExpLog(int exp)
     {
-        AddLog($"{_name}을 쓰러트렸습니다.");
+        AddLog($"{exp} 경험치를 획득했습니다.");
+        PlayerStatus.AddExp(exp);
     }
-    public void UseLog(string _item)
+    public void EnemyLog(string name)
     {
-        switch(_item)
+        AddLog($"{name}을 쓰러트렸습니다.");
+    }
+    public void UseLog(string item)
+    {
+        switch(item)
         {
             case "HP 포션":
                 PlayerStatus.AddCurHP(50); 
                 break;
             case "MP 포션": 
-                PlayerStatus.AddCurMP(50);
+                PlayerStatus.AddCurMp(50);
                 break;
         }
-        AddLog($"{_item}을 사용했습니다.");
+        AddLog($"{item}을 사용했습니다.");
     }
 
     public void SetHP(float max, float cur)
@@ -87,9 +96,13 @@ public class UIManager : MonoBehaviour
     }
     public void SetEXP(float exp)
     {
+        level = (int)(exp / 100) + 1;
+
+        textLevel.text = level.ToString();
+
         sliderEXP.value = exp / 100;
         sliderStatusEXP.value = exp / 100;
         textExp.text = $"{exp}%";
-        textStatusExp.text = $"{exp}%";
+        textStatusExp.text = $"Lv{level} exp {exp}%";
     }
 }

@@ -7,5 +7,6 @@ public class Skill : ScriptableObject
     public string skillName; // 스킬 이름
     public string skillExplain; //스킬 설명
     public int skillLevel; // 스킬 레벨
+    public int mana; // 쓰이는 마나
     public string anim; // 애니메이션 이름
 }

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Potion_HP
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 7078d347b95eec1478c3c9a1a08c023d, type: 2}
-  itemCount: 2
+  itemCount: 5

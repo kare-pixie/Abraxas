@@ -12,6 +12,7 @@ public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
     private int animID;
     private string anim;
     private string skillName;
+    private int skillMana;
 
     [SerializeField] private Animator animator;
     [SerializeField] private VFXController fXController;
@@ -47,9 +48,7 @@ public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         }
         animator.SetTrigger(animID);
         fXController.Play(anim, character.transform.GetChild(1));
-        UIManager.instance.SkillLog(skillName);
-
-        //Todo: 데미지
+        UIManager.instance.SkillLog(skillName, skillMana);
     }
     private void ChangeSlot()
     {
@@ -68,6 +67,7 @@ public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         skillImage.sprite = _slot.skill.skillImage;
         anim = _slot.skill.anim;
         skillName = _slot.skill.skillName;
+        skillMana = _slot.skill.mana;
         animID = Animator.StringToHash(_slot.skill.anim);
 
         SetImageAlpha(1f); // 이미지 표시 (불투명)

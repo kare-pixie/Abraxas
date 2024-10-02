@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 562a10d2e87173c4faa46ac4972ffd7d, type: 3}
-  m_Name: Herb_H
+  m_Name: Potion_MP
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: acc8257819015484db11908d3a3ec9b0, type: 2}
-  itemCount: 2
+  item: {fileID: 11400000, guid: 2d356a187eedd3f4fa40b2419fab6f6a, type: 2}
+  itemCount: 5
