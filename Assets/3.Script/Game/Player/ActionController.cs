@@ -28,7 +28,7 @@ public class ActionController : MonoBehaviour
 
     private void TryAction()
     {
-        if (UIManager.instance.isGameOver) return;
+        if (UIManager.instance != null && UIManager.instance.isGameOver) return;
 
         if (Input.GetKeyDown(KeyCode.E))
         {

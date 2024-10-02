@@ -35,7 +35,7 @@ public class TargetScanner : MonoBehaviour
 
     void Update()
     {
-        if (UIManager.instance.isGameOver)
+        if (UIManager.instance != null && UIManager.instance.isGameOver)
         {
             StopChasingPlayer();
             return;

@@ -20,7 +20,7 @@ public class AttackController : MonoBehaviour
     }
     private void Update()
     {
-        if (UIManager.instance.isGameOver) return;
+        if (UIManager.instance != null && UIManager.instance.isGameOver) return;
 
         hasAnimator = TryGetComponent(out animator);
 
