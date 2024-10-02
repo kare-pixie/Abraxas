@@ -51,9 +51,13 @@ public class ActionController : MonoBehaviour
 
     private void CheckItem()
     {
-        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hitInfo, range, layerMask))
+        // 구체 캐스트의 반경 설정
+        float sphereRadius = 1.0f;
+
+        // 구체 캐스트 사용하여 아이템을 감지
+        if (Physics.SphereCast(transform.position, sphereRadius, transform.TransformDirection(Vector3.forward), out hitInfo, 1f, layerMask))
         {
-            if(hitInfo.transform.tag == "Item")
+            if (hitInfo.transform.tag == "Item")
             {
                 ItemInfoAppear();
             }

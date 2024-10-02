@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
     }
     public void ItemLog(string item, int itemCount = 1)
     {
-        AddLog($"{item}¿ª {itemCount}∞≥ »πµÊ«ﬂΩ¿¥œ¥Ÿ.");
+        AddLog($"{item} {itemCount}∞≥∏¶ »πµÊ«ﬂΩ¿¥œ¥Ÿ.");
     }
     public void ExpLog(int exp)
     {
