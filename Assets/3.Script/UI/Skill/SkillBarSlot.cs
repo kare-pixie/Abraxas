@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
 {
-    private Skill skill;
+    public Skill skill { get; private set; }
     
     private int animID;
     private string anim;
@@ -52,7 +52,7 @@ public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
     }
     private void ChangeSlot()
     {
-        SetSlot(DragSlot.instance.dragSkillSlot);
+        SetSlot(DragSlot.instance.dragSkillSlot.skill);
         DragSlot.instance.dragSkillSlot = null;
     }
     private void ClearSlot()
@@ -61,14 +61,14 @@ public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         skillImage.sprite = null;
         SetImageAlpha(0f);
     }
-    private void SetSlot(SkillSlot _slot)
+    public void SetSlot(Skill _slot)
     {
-        skill = _slot.skill;
-        skillImage.sprite = _slot.skill.skillImage;
-        anim = _slot.skill.anim;
-        skillName = _slot.skill.skillName;
-        skillMana = _slot.skill.mana;
-        animID = Animator.StringToHash(_slot.skill.anim);
+        skill = _slot;
+        skillImage.sprite = _slot.skillImage;
+        anim = _slot.anim;
+        skillName = _slot.skillName;
+        skillMana = _slot.mana;
+        animID = Animator.StringToHash(_slot.anim);
 
         SetImageAlpha(1f); // 이미지 표시 (불투명)
     }

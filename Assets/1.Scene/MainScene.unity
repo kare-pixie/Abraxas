@@ -101350,12 +101350,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2806a94b50f3dbc4ea1aea2dc084ddff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkillSlot1: {fileID: 1829095206}
-  SkillSlot2: {fileID: 702983825}
-  SkillSlot3: {fileID: 319913289}
-  SkillSlot4: {fileID: 829632666}
-  SkillSlot5: {fileID: 346135838}
-  SkillSlot6: {fileID: 15626168}
+  SkillSlot:
+  - {fileID: 1829095206}
+  - {fileID: 702983825}
+  - {fileID: 319913289}
+  - {fileID: 829632666}
+  - {fileID: 346135838}
+  - {fileID: 15626168}
+  saveSkillSlot: {fileID: 11400000, guid: 59f82584416bbc445a1cc698d3085a20, type: 2}
 --- !u!320 &7497818347844589299
 PlayableDirector:
   m_ObjectHideFlags: 0
