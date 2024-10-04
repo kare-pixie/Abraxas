@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -13,6 +14,8 @@ public class PlayerStatus : MonoBehaviour
     private Material mat;
     private Animator animator;
     private int animIDDie;
+
+    private string saveFilePath;
 
     [SerializeField] private Status status;
 
@@ -81,14 +84,18 @@ public class PlayerStatus : MonoBehaviour
         mat = transform.GetChild(1).GetComponent<SkinnedMeshRenderer>().material;
 
         animIDDie = Animator.StringToHash("Death1");
+        saveFilePath = Path.Combine(Application.dataPath, "status.json");
     }
     private void Start()
     {
+        LoadStatus();
+
         SetHp(status.maxHp, status.curHp);
         SetMp(status.maxMp, status.curMp);
         SetExp(status.exp);
-        transform.position = status.location;
+
         transform.rotation = status.rotation;
+        transform.position = status.location;
     }
 
     private IEnumerator OnDamage(float sec)
@@ -146,5 +153,18 @@ public class PlayerStatus : MonoBehaviour
         status.exp = exp;
         status.location = transform.position;
         status.rotation = transform.rotation;
+
+        string json = JsonUtility.ToJson(status, true);
+        File.WriteAllText(saveFilePath, json);
+    }
+
+    private void LoadStatus()
+    {
+        if (File.Exists(saveFilePath))
+        {
+            string json = File.ReadAllText(saveFilePath); // 파일에서 JSON 읽기
+            JsonUtility.FromJsonOverwrite(json, status); // 읽어온 데이터를 객체에 덮어쓰기
+        }
+
     }
 }

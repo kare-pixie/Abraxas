@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class AttackController : MonoBehaviour
@@ -8,6 +9,14 @@ public class AttackController : MonoBehaviour
 
     [SerializeField] private SaveSkillSlot saveSkillSlot;
 
+    private string saveFilePath;
+
+    private void Awake()
+    {
+        saveFilePath = Path.Combine(Application.dataPath, "skillSlot.json");
+    }
+
+
     private void Start()
     {
         LoadSkillSlot();
@@ -15,6 +24,12 @@ public class AttackController : MonoBehaviour
 
     private void LoadSkillSlot()
     {
+        if (File.Exists(saveFilePath))
+        {
+            string json = File.ReadAllText(saveFilePath); // 파일에서 JSON 읽기
+            JsonUtility.FromJsonOverwrite(json, saveSkillSlot); // 읽어온 데이터를 객체에 덮어쓰기
+        }
+
         if (saveSkillSlot != null)
         {
             for (int i = 0; i < saveSkillSlot.skill.Length; i++)
@@ -35,6 +50,9 @@ public class AttackController : MonoBehaviour
                 saveSkillSlot.skill[i] = SkillSlot[i].skill;
             }
         }
+
+        string json = JsonUtility.ToJson(saveSkillSlot, true);
+        File.WriteAllText(saveFilePath, json);
     }
 
     private void Update()
