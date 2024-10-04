@@ -15,6 +15,8 @@ public class ActionController : MonoBehaviour
     [SerializeField] private TMP_Text actionText; // 필요한 컴포넌트
     [SerializeField] private Inventory inventory;
 
+    private float sphereRadius = 1.0f; // 아이템 픽업 구체 캐스트의 반경
+
     private void Awake()
     {
         inventory = FindObjectOfType<Inventory>();
@@ -53,10 +55,7 @@ public class ActionController : MonoBehaviour
 
     private void CheckItem()
     {
-        // 구체 캐스트의 반경 설정
-        float sphereRadius = 1.0f;
-
-        // 구체 캐스트 사용하여 아이템을 감지
+        // 아이템을 감지
         if (Physics.SphereCast(transform.position, sphereRadius, transform.TransformDirection(Vector3.forward), out hitInfo, 1f, layerMask))
         {
             if (hitInfo.transform.tag == "Item")
@@ -68,6 +67,17 @@ public class ActionController : MonoBehaviour
         {
             ItemInfoDisappear();
         }
+    }
+    private void OnDrawGizmos()
+    {
+        // 구체 캐스트 색상 설정
+        Gizmos.color = Color.yellow;
+
+        // 캐릭터가 바라보는 방향으로 구체를 그리기 위한 위치와 방향 계산
+        Vector3 direction = transform.TransformDirection(Vector3.forward);
+
+        // SphereCast 범위를 시각화
+        Gizmos.DrawWireSphere(transform.position + direction * range, sphereRadius);
     }
 
     private void ItemInfoAppear()
