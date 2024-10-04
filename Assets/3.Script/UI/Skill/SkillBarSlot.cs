@@ -50,7 +50,7 @@ public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         if (skill == null || stateInfo.IsTag("BlockMovement") || stateInfo.IsTag("Jump")) return;
-        if (playerStatus.CheckManaZero())
+        if (playerStatus.CheckManaZero(skillMana))
         {
             UIManager.instance.ManaZeroLog();
             return;

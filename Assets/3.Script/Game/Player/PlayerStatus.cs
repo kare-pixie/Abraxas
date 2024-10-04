@@ -129,9 +129,9 @@ public class PlayerStatus : MonoBehaviour
         StartCoroutine(OnDamage(sec));
     }
 
-    public bool CheckManaZero()
+    public bool CheckManaZero(int skillMana)
     {
-        if (curMp <= 0)
+        if (curMp - skillMana <= 0)
         {
             return true;
         }

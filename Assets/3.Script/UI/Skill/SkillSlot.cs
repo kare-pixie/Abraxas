@@ -33,7 +33,7 @@ public class SkillSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         if (skill == null || stateInfo.IsTag("BlockMovement") || stateInfo.IsTag("Jump")) return;
 
-        if (playerStatus.CheckManaZero())
+        if (playerStatus.CheckManaZero(skill.mana))
         {
             UIManager.instance.ManaZeroLog();
             return;
