@@ -126,7 +126,7 @@ public class PlayerStatus : MonoBehaviour
         }
         StartCoroutine(OnDamage(sec));
     }
-    public void Save()
+    public void SaveStatus()
     {
         status.maxHp = maxHp;
         status.curHp = curHp;

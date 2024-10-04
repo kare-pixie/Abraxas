@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class Inventory : MonoBehaviour
 {
@@ -15,10 +16,17 @@ public class Inventory : MonoBehaviour
 
     private ItemSlot[] slots; // 각 슬롯을 관리하는 Slot 배열
 
+    private string saveFilePath;
+
     private void Awake()
     {
         slots = slotParent.GetComponentsInChildren<ItemSlot>();
+        saveFilePath = Path.Combine(Application.dataPath, "inventory.json");
         FreshSlot();
+    }
+    private void OnEnable()
+    {
+        LoadInventory();
     }
 
     private void Update()
@@ -123,8 +131,16 @@ public class Inventory : MonoBehaviour
         // 아이템과 슬롯이 있는 만큼 슬롯에 아이템을 할당
         for (; i < items.Count && i < slots.Length; i++)
         {
-            slots[i].itemCount = items[i].itemCount;
-            slots[i].Item = items[i].item;
+            if(items[i] == null)
+            {
+                slots[i].itemCount = 0;
+                slots[i].Item = null;
+            }
+            else
+            {
+                slots[i].itemCount = items[i].itemCount;
+                slots[i].Item = items[i].item;
+            }
         }
 
         // 남은 슬롯이 있으면 빈 슬롯으로 설정
@@ -133,5 +149,65 @@ public class Inventory : MonoBehaviour
             slots[i].itemCount = 0;
             slots[i].Item = null;
         }
+    }
+
+    // JSON 형태로 아이템 리스트 저장
+    public void SaveInventory()
+    {
+        items = new List<HaveItem>();
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if(slots[i].Item != null)
+            {
+                HaveItem item = new HaveItem();
+                item.item = slots[i].Item;
+                item.itemCount = slots[i].itemCount;
+                items.Add(item);
+            }
+            else
+            {
+                items.Add(null);
+            }
+        }
+
+        InventoryData data = new InventoryData
+        {
+            items = items,
+            potionSlot1 = potionSlot1,
+            potionSlot2 = potionSlot2
+        };
+
+        string json = JsonUtility.ToJson(data, true); 
+        File.WriteAllText(saveFilePath, json);
+        Debug.Log("인벤토리 저장 완료");
+    }
+
+    // JSON 파일에서 아이템 리스트 불러오기
+    public void LoadInventory()
+    {
+        if (File.Exists(saveFilePath))
+        {
+            string json = File.ReadAllText(saveFilePath);
+            InventoryData data = JsonUtility.FromJson<InventoryData>(json);
+
+            items = data.items;
+            potionSlot1 = data.potionSlot1;
+            potionSlot2 = data.potionSlot2;
+
+            FreshSlot();
+            Debug.Log("인벤토리 불러오기 완료");
+        }
+        else
+        {
+            Debug.LogWarning("저장된 인벤토리가 없습니다.");
+        }
+    }
+
+    [System.Serializable]
+    public class InventoryData
+    {
+        public List<HaveItem> items;
+        public PotionSlot potionSlot1;
+        public PotionSlot potionSlot2;
     }
 }

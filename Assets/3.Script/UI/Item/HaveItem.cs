@@ -1,6 +1,5 @@
-using UnityEngine;
-[CreateAssetMenu(fileName = "New Have Item", menuName = "Item/haveItem")]
-public class HaveItem : ScriptableObject
+[System.Serializable] 
+public class HaveItem
 {
     public Item item;
     public int itemCount;
