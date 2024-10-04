@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
 {
-    private Item item;
+    public Item Item { get; private set; }
 
     public int itemCount; // »πµÊ«— æ∆¿Ã≈€¿« ∞≥ºˆ
 
@@ -17,7 +17,7 @@ public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
 
     private Inventory inventory;
 
-    private void Start()
+    private void Awake()
     {
         inventory = FindAnyObjectByType<Inventory>();
     }
@@ -41,9 +41,9 @@ public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
     }
     public void FreshCount()
     {
-        if (item == null) return;
+        if (Item == null) return;
 
-        itemCount = inventory.getItemCount(item);
+        itemCount = inventory.getItemCount(Item);
 
         if (itemCount == 0)
         {
@@ -55,13 +55,13 @@ public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
     }
     public void UseItem()
     {
-        if (item == null)
+        if (Item == null)
         {
             return;
         }
-        UIManager.instance.UseLog(item.itemName);
-        inventory.UseItem(item);
-        itemCount = inventory.getItemCount(item);
+        UIManager.instance.UseLog(Item.itemName);
+        inventory.UseItem(Item);
+        itemCount = inventory.getItemCount(Item);
 
         if (itemCount == 0)
         {
@@ -82,7 +82,7 @@ public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
     }
     private void ClearSlot()
     {
-        item = null;
+        Item = null;
         itemCount = 0;
         itemImage.sprite = null;
         SetImageAlpha(0f);
@@ -90,9 +90,9 @@ public class PotionSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         textCount.text = "0";
         CountImage.SetActive(false);
     }
-    private void SetSlot(Item _item, int _count = 1)
+    public void SetSlot(Item _item, int _count = 1)
     {
-        this.item = _item;
+        this.Item = _item;
         this.itemCount = _count;
         itemImage.sprite = _item.itemImage;
 

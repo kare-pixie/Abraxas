@@ -24,6 +24,10 @@ public class Inventory : MonoBehaviour
         saveFilePath = Path.Combine(Application.dataPath, "inventory.json");
         FreshSlot();
     }
+    private void Start()
+    {
+        RefreshPotion();
+    }
     private void OnEnable()
     {
         LoadInventory();
@@ -120,6 +124,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void RefreshPotion()
+    {
+        potionSlot1.FreshCount();
+        potionSlot2.FreshCount();
+    }
+
     /// <summary>
     /// 인벤토리의 슬롯을 새로 고침하는 메서드
     /// </summary>
@@ -173,8 +183,8 @@ public class Inventory : MonoBehaviour
         InventoryData data = new InventoryData
         {
             items = items,
-            potionSlot1 = potionSlot1,
-            potionSlot2 = potionSlot2
+            potionSlot1 = potionSlot1.Item,
+            potionSlot2 = potionSlot2.Item
         };
 
         string json = JsonUtility.ToJson(data, true); 
@@ -191,8 +201,10 @@ public class Inventory : MonoBehaviour
             InventoryData data = JsonUtility.FromJson<InventoryData>(json);
 
             items = data.items;
-            potionSlot1 = data.potionSlot1;
-            potionSlot2 = data.potionSlot2;
+            if(data.potionSlot1 != null)
+                potionSlot1.SetSlot(data.potionSlot1);
+            if (data.potionSlot2 != null)
+                potionSlot2.SetSlot(data.potionSlot2);
 
             FreshSlot();
             Debug.Log("인벤토리 불러오기 완료");
@@ -207,7 +219,7 @@ public class Inventory : MonoBehaviour
     public class InventoryData
     {
         public List<HaveItem> items;
-        public PotionSlot potionSlot1;
-        public PotionSlot potionSlot2;
+        public Item potionSlot1;
+        public Item potionSlot2;
     }
 }

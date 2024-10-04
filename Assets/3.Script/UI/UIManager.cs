@@ -30,6 +30,7 @@ public class UIManager : MonoBehaviour
     public bool isGameOver { get; private set; }
 
     private PlayerStatus PlayerStatus;
+    private Inventory inventory;
     private int level;
 
     private void Awake()
@@ -38,6 +39,7 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
             PlayerStatus = FindObjectOfType<PlayerStatus>();
+            inventory = FindObjectOfType<Inventory>();
             level = 0;
             isGameOver = false;
         }
@@ -67,6 +69,7 @@ public class UIManager : MonoBehaviour
     public void ItemLog(string item, int itemCount = 1)
     {
         AddLog($"{item} {itemCount}∞≥∏¶ »πµÊ«ﬂΩ¿¥œ¥Ÿ.");
+        inventory.RefreshPotion();
     }
     public void ExpLog(int exp)
     {
