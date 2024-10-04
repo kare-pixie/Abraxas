@@ -20,6 +20,12 @@ public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
 
     [SerializeField] private Image skillImage; // 스킬 이미지
 
+    private PlayerStatus playerStatus;
+
+    private void Awake()
+    {
+        playerStatus = FindObjectOfType<PlayerStatus>();
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -42,8 +48,11 @@ public class SkillBarSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
 
     public void UseSkill()
     {
-        if (skill == null)
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (skill == null || stateInfo.IsTag("BlockMovement") || stateInfo.IsTag("Jump")) return;
+        if (playerStatus.CheckManaZero())
         {
+            UIManager.instance.ManaZeroLog();
             return;
         }
         animator.SetTrigger(animID);

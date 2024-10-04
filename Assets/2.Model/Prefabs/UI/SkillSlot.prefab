@@ -61,6 +61,9 @@ MonoBehaviour:
   textName: {fileID: 2834485398163407583}
   textExplain: {fileID: 7334735995183902269}
   textLevel: {fileID: 616480760225851370}
+  character: {fileID: 0}
+  animator: {fileID: 0}
+  fXController: {fileID: 0}
 --- !u!1 &2453617488176412091
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,7 +723,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1922016372424087595}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8614293549648678085}
+        m_TargetAssemblyTypeName: SkillSlot, Assembly-CSharp
+        m_MethodName: UseSkill
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5995841246241612833
 GameObject:
   m_ObjectHideFlags: 0

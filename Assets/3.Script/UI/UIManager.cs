@@ -66,6 +66,11 @@ public class UIManager : MonoBehaviour
         AddLog($"{skillName}를 사용했습니다.");
         PlayerStatus.AddCurMp(-skillMana);
     }
+
+    public void ManaZeroLog()
+    {
+        AddLog($"MP가 없어 스킬을 사용할 수 없습니다.");
+    }
     public void ItemLog(string item, int itemCount = 1)
     {
         AddLog($"{item} {itemCount}개를 획득했습니다.");

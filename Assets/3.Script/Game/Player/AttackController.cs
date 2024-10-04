@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
-    private Animator animator;
-    private bool hasAnimator;
-
     public SkillBarSlot[] SkillSlot;
 
     [SerializeField] private SaveSkillSlot saveSkillSlot;
 
     private void Start()
     {
-        hasAnimator = TryGetComponent(out animator);
         LoadSkillSlot();
     }
 
@@ -44,14 +40,6 @@ public class AttackController : MonoBehaviour
     private void Update()
     {
         if (UIManager.instance != null && UIManager.instance.isGameOver) return;
-
-        hasAnimator = TryGetComponent(out animator);
-
-        if (!hasAnimator) return;
-
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
-        if (stateInfo.IsTag("BlockMovement") || stateInfo.IsTag("Jump")) return;
 
         if (Input.GetKeyDown(KeyCode.F1))
         {

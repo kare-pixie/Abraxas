@@ -128,6 +128,15 @@ public class PlayerStatus : MonoBehaviour
         }
         StartCoroutine(OnDamage(sec));
     }
+
+    public bool CheckManaZero()
+    {
+        if (curMp <= 0)
+        {
+            return true;
+        }
+        return false;
+    }
     public void SaveStatus()
     {
         status.maxHp = maxHp;
