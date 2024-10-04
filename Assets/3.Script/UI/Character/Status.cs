@@ -10,4 +10,6 @@ public class Status : ScriptableObject
     public float damage;
     public float def;
     public float exp;
+    public Vector3 location;
+    public Quaternion rotation;
 }

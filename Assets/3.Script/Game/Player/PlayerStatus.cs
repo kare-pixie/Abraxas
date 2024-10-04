@@ -87,6 +87,8 @@ public class PlayerStatus : MonoBehaviour
         SetHp(status.maxHp, status.curHp);
         SetMp(status.maxMp, status.curMp);
         SetExp(status.exp);
+        transform.position = status.location;
+        transform.rotation = status.rotation;
     }
 
     private IEnumerator OnDamage(float sec)
@@ -133,5 +135,7 @@ public class PlayerStatus : MonoBehaviour
         status.maxMp = maxMp;
         status.curMp = curMp;
         status.exp = exp;
+        status.location = transform.position;
+        status.rotation = transform.rotation;
     }
 }
