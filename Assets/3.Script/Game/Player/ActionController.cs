@@ -16,6 +16,7 @@ public class ActionController : MonoBehaviour
     [SerializeField] private Inventory inventory;
 
     private float sphereRadius = 1.0f; // 아이템 픽업 구체 캐스트의 반경
+    private bool isItemDetected = false;
 
     private void Awake()
     {
@@ -52,7 +53,6 @@ public class ActionController : MonoBehaviour
             }
         }
     }
-
     private void CheckItem()
     {
         // 아이템을 감지
@@ -61,23 +61,42 @@ public class ActionController : MonoBehaviour
             if (hitInfo.transform.tag == "Item")
             {
                 ItemInfoAppear();
+                isItemDetected = true;
+            }
+            else
+            {
+                ItemInfoDisappear();
+                isItemDetected = false;
             }
         }
         else
         {
             ItemInfoDisappear();
+            isItemDetected = false;
         }
     }
     private void OnDrawGizmos()
     {
-        // 구체 캐스트 색상 설정
-        Gizmos.color = Color.yellow;
-
-        // 캐릭터가 바라보는 방향으로 구체를 그리기 위한 위치와 방향 계산
         Vector3 direction = transform.TransformDirection(Vector3.forward);
+        float castDistance = 1f; // SphereCast에서 사용한 거리
 
-        // SphereCast 범위를 시각화
-        Gizmos.DrawWireSphere(transform.position + direction * range, sphereRadius);
+        if (isItemDetected)
+        {
+            Gizmos.color = Color.red; // 충돌 시 빨간색
+        }
+        else
+        {
+            Gizmos.color = Color.yellow; // 충돌 없을 시 노란색
+        }
+
+        // 시작 위치에 구체 그리기
+        Gizmos.DrawWireSphere(transform.position, sphereRadius);
+
+        // 끝 위치에 구체 그리기
+        Gizmos.DrawWireSphere(transform.position + direction * castDistance, sphereRadius);
+
+        // 시작점과 끝점을 연결하는 선 그리기
+        Gizmos.DrawLine(transform.position, transform.position + direction * castDistance);
     }
 
     private void ItemInfoAppear()
